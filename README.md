@@ -1,0 +1,1 @@
+# pinecone-claude-code-plugin
