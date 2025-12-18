@@ -27,7 +27,7 @@ The Pinecone Plugin is a lightweight package of tools that helps developers use 
 ## After Invoking the Help Command
 
 1. Recap the functionality of the Pinecone Plugin above
-2. Remind the user to set a Pinecone API Key if does not exist in environemnt
+2. Remind the user to set a Pinecone API Key if does not exist in environment. Warn them that they must set the API key, then start Claude Code to begin using Pinecone. 
 3. Remind the user to optionally install the Pinecone cli optionally:
 
 brew tap pinecone-io/tap

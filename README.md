@@ -35,7 +35,7 @@ After installation, restart Claude Code to activate the plugin.
 
 ### Step 3: Set Your API Key
 
-After installing the plugin, you'll need to configure your Pinecone API key:
+After installing the plugin, and before running Claude Code again you'll need to configure your Pinecone API key:
 
 ```bash
 export PINECONE_API_KEY="your-api-key-here"
@@ -53,11 +53,30 @@ brew tap pinecone-io/tap
 brew install pinecone-io/tap/pinecone
 ```
 
+Then, simply start Claude Code and look for the /pinecone:help command to begin!
+
 ## Available Commands
+
+### `/pinecone:help`
+
+Display help information about the plugin, including:
+- Available functionality
+- API key configuration
+- Troubleshooting tips
+
+Run this when first installing the Plugin, then proceed to the quickstart.
+
+### `/pinecone:quickstart`
+
+Get started quickly with Pinecone! This command:
+1. Downloads and generates an AGENTS.md file, optimized for use with Claude Code and Pinecone
+2. Walks you through a Python quickstart tutorial
+3. Helps you create your first index and perform semantic searches
 
 ### `/pinecone:query`
 
-Query your Pinecone indexes using natural language. This command wraps the MCP server for easy searching of integrated indexes.
+Query your Pinecone indexes using natural language. This command wraps the Pinecone MCP server for easy searching of integrated indexes.
+Most useful when you already have an integrated index created, and want to query it quickly from Claude.
 
 **Usage:**
 ```
@@ -76,19 +95,7 @@ If you omit required arguments, the command will interactively guide you through
 
 > **Note:** The `/query` command currently only works with integrated indexes that use Pinecone's hosted embedding models. Third-party embedding models (OpenAI, HuggingFace, etc.) are not yet supported.
 
-### `/pinecone:quickstart`
 
-Get started quickly with Pinecone! This command:
-1. Downloads agentic documentation for Pinecone
-2. Walks you through a Python quickstart tutorial
-3. Helps you create your first index and perform semantic searches
-
-### `/pinecone:help`
-
-Display help information about the plugin, including:
-- Available functionality
-- API key configuration
-- Troubleshooting tips
 
 ## MCP Server Tools
 
@@ -136,10 +143,5 @@ The `/query` command only works with **integrated indexes** that use Pinecone's 
 
 MIT License – see [LICENSE](./LICENSE) for details.
 
-## Author
-
-Arjun Patel
-
----
 
 **Have fun and enjoy developing with Pinecone!** 🌲
