@@ -6,7 +6,7 @@
 "plugins": [
 {
   "name": "pinecone",
-  "source": "../",
+  "source": "./",
   "description": "Get started using Pinecone with Claude Code"
 }
 ]
