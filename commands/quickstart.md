@@ -3,6 +3,10 @@ description: Download AGENTS.md files for Pinecone, and kicksoff a quickstart us
 allowed-tools: Bash, BashOutput, Read
 ---
 
+# Overview
+This command initiates a Pinecone Quickstart in Python for the user.
+
+# Workflow
 
 First, download and run this remote script: 
 
