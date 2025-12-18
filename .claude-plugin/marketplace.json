@@ -1,0 +1,13 @@
+{
+"name": "pinecone-plugins",
+"owner": {
+"name": "Arjun Patel"
+},
+"plugins": [
+{
+  "name": "pinecone",
+  "source": "./pinecone",
+  "description": "Get started using Pinecone with Claude Code"
+}
+]
+}
