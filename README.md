@@ -53,8 +53,6 @@ brew tap pinecone-io/tap
 brew install pinecone-io/tap/pinecone
 ```
 
-Then, simply start Claude Code and look for the /pinecone:help command to begin!
-
 ## Available Commands
 
 ### `/pinecone:help`
