@@ -10,39 +10,60 @@ A lightweight plugin that integrates [Pinecone](https://www.pinecone.io/) vector
 
 ## Installation
 
-### Step 1: Add the Pinecone Marketplace
+Choose one of the two installation methods below.
 
-Open Claude Code and add the Pinecone plugin marketplace:
+---
 
-```
-/plugin marketplace add pinecone-io/pinecone-claude-code-plugin
-```
+### Option A: Claude Code Marketplace (Recommended)
 
-### Step 2: Install the Plugin
+The quickest way to get started:
 
-Install the Pinecone plugin interactively:
+1. Update your Claude Code instance:
+   ```
+   claude update
+   ```
 
-```
-/plugin install pinecone@pinecone-claude-code-plugin
-```
+2. Install the plugin:
+   ```
+   /plugin install pinecone
+   ```
 
-When prompted, select your preferred installation scope:
-- **User scope** (default) – Available across all your projects
-- **Project scope** – Shared with your team via version control
-- **Local scope** – Project-specific, not shared (gitignored)
+3. Restart Claude Code to activate the plugin.
 
-After installation, restart Claude Code to activate the plugin.
+---
 
-### Step 3: Set Your API Key
+### Option B: Pinecone Marketplace
 
-After installing the plugin, and before running Claude Code again you'll need to configure your Pinecone API key:
+Alternatively, install directly from the Pinecone marketplace:
+
+1. Add the Pinecone plugin marketplace:
+   ```
+   /plugin marketplace add pinecone-io/pinecone-claude-code-plugin
+   ```
+
+2. Install the plugin:
+   ```
+   /plugin install pinecone@pinecone-claude-code-plugin
+   ```
+
+3. When prompted, select your preferred installation scope:
+   - **User scope** (default) – Available across all your projects
+   - **Project scope** – Shared with your team via version control
+   - **Local scope** – Project-specific, not shared (gitignored)
+
+4. Restart Claude Code to activate the plugin.
+
+---
+
+### Set Your API Key
+
+After installing via either method, configure your Pinecone API key before running Claude Code:
 
 ```bash
 export PINECONE_API_KEY="your-api-key-here"
 ```
 
 > **Don't have a Pinecone account?** Sign up for free at [app.pinecone.io](https://app.pinecone.io/?sessionType=signup)
-
 
 ### Optional: Install the Pinecone CLI
 
