@@ -10,25 +10,16 @@ A lightweight plugin that integrates [Pinecone](https://www.pinecone.io/) vector
 
 ## Installation
 
-Choose one of the two installation methods below.
+### Option A: Claude Code Plugins Directory (Recommended)
 
----
+Install from the [official Claude Code Plugins Directory](https://github.com/anthropics/claude-plugins-official):
 
-### Option A: Claude Code Marketplace (Recommended)
-
-The quickest way to get started:
-
-1. Update your Claude Code instance:
-   ```
-   claude update
-   ```
-
-2. Install the plugin:
+1. Install the plugin:
    ```
    /plugin install pinecone
    ```
 
-3. Restart Claude Code to activate the plugin.
+2. Restart Claude Code to activate the plugin.
 
 ---
 
