@@ -2,6 +2,7 @@
 description: List all Pinecone Assistants in your account with optional file details
 argument-hint: [--files] [--json]
 allowed-tools: Bash, Read
+model: claude-haiku-4-5
 ---
 
 ## Overview
