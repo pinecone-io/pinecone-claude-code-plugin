@@ -2,6 +2,7 @@
 description: Chat with a Pinecone Assistant and receive answers with source citations
 argument-hint: assistant [name] message [your question]
 allowed-tools: Bash, Read, AskUserQuestion
+model: claude-haiku-4-5
 ---
 
 ## Overview
