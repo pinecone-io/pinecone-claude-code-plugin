@@ -1,6 +1,6 @@
 ---
 description: Create a new Pinecone Assistant for document Q&A with citations
-argument-hint: name [assistant-name] [--instructions "behavior"] [--region us|eu]
+argument-hint: assistant [name] [--instructions "behavior"] [--region us|eu]
 allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
 ---
@@ -12,12 +12,12 @@ Create a new Pinecone Assistant with custom configuration. This command invokes 
 ## Workflow
 
 1. **Parse Arguments**:
-   - `name`: Unique name for the assistant (required)
+   - `assistant`: Unique name for the assistant (required)
    - `instructions`: Instructions for assistant behavior (optional)
    - `region`: Deployment region - "us" or "eu" (optional, default: "us")
    - `timeout`: Seconds to wait for ready status (optional, default: 30)
 
-2. **If Name Not Provided**:
+2. **If Assistant Name Not Provided**:
    - Prompt user for a descriptive assistant name
    - Suggest naming conventions: `{purpose}-{type}` like "docs-qa", "code-search", "support-bot"
 
@@ -42,6 +42,7 @@ Create a new Pinecone Assistant with custom configuration. This command invokes 
    - Assistant name and status
    - Assistant host URL (for MCP configuration)
    - Instructions to set PINECONE_ASSISTANT_HOST environment variable
+   - Pinecone Console link: `https://app.pinecone.io/organizations/-/projects/-/assistant/` (users can view and manage their assistants in the web UI)
    - Next steps: upload files and start chatting
 
 6. **Offer Next Actions**:
@@ -52,22 +53,22 @@ Create a new Pinecone Assistant with custom configuration. This command invokes 
 
 **Basic creation:**
 ```
-/pinecone:assistant-create name docs-assistant
+/pinecone:assistant-create assistant docs-assistant
 ```
 
 **With instructions:**
 ```
-/pinecone:assistant-create name support-bot --instructions "Use friendly tone and provide step-by-step guidance"
+/pinecone:assistant-create assistant support-bot --instructions "Use friendly tone and provide step-by-step guidance"
 ```
 
 **EU region:**
 ```
-/pinecone:assistant-create name eu-assistant --region eu
+/pinecone:assistant-create assistant eu-assistant --region eu
 ```
 
 **Interactive mode:**
 - User invokes: `/pinecone:assistant-create`
-- Claude prompts for name
+- Claude prompts for assistant name
 - Claude asks about region preference (use AskUserQuestion)
 - Claude asks if custom instructions are needed
 - Claude executes the script
@@ -117,8 +118,13 @@ Provide these examples if user wants guidance:
 
 After successful creation:
 1. **Save the assistant host URL** - Show the PINECONE_ASSISTANT_HOST value
-2. **Suggest file upload** - Offer to run `/pinecone:assistant-upload` next
-3. **MCP configuration** - Explain that the assistant is now an MCP server
+2. **Pinecone Console access** - Inform user they can view and manage their assistant at https://app.pinecone.io/organizations/-/projects/-/assistant/
+   - Upload files via the web UI
+   - Chat with the assistant directly in the browser
+   - View file lists and assistant configuration
+   - Test queries without code
+3. **Suggest file upload** - Offer to run `/pinecone:assistant-upload` next
+4. **MCP configuration** - Explain that the assistant is now an MCP server
 
 ## Related Commands
 
