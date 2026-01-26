@@ -4,36 +4,47 @@ A lightweight plugin that integrates [Pinecone](https://www.pinecone.io/) vector
 
 ## Features
 
+- **Pinecone Assistant** – Fully managed RAG service for document Q&A with citations, natural language support, and incremental file syncing
 - **Pinecone MCP Server** – Full integration with the Pinecone Model Context Protocol server for index creation, listing, searching, and more
 - **Slash Commands** – Quick access to common Pinecone operations directly from Claude Code
 - **Semantic Search** – Query your vector indexes using natural language
+- **Natural Language Recognition** – Assistant commands work without explicit slash commands
 
 ## Installation
 
-### Step 1: Add the Pinecone Marketplace
+### Option A: Claude Code Plugins Directory (Recommended)
 
-Open Claude Code and add the Pinecone plugin marketplace:
+Install from the official Claude Code Plugins Directory:
 
-```
-/plugin marketplace add pinecone-io/pinecone-claude-code-plugin
-```
+1. **Install the plugin:**
+   ```
+   /plugin install pinecone
+   ```
 
-### Step 2: Install the Plugin
+2. **Restart Claude Code** to activate the plugin.
 
-Install the Pinecone plugin interactively:
+### Option B: Pinecone Marketplace
 
-```
-/plugin install pinecone@pinecone-claude-code-plugin
-```
+Alternatively, install directly from the Pinecone marketplace:
 
-When prompted, select your preferred installation scope:
-- **User scope** (default) – Available across all your projects
-- **Project scope** – Shared with your team via version control
-- **Local scope** – Project-specific, not shared (gitignored)
+1. **Add the Pinecone plugin marketplace:**
+   ```
+   /plugin marketplace add pinecone-io/pinecone-claude-code-plugin
+   ```
 
-After installation, restart Claude Code to activate the plugin.
+2. **Install the plugin:**
+   ```
+   /plugin install pinecone@pinecone-claude-code-plugin
+   ```
 
-### Step 3: Set Your API Key
+3. **When prompted**, select your preferred installation scope:
+   - **User scope** (default) – Available across all your projects
+   - **Project scope** – Shared with your team via version control
+   - **Local scope** – Project-specific, not shared (gitignored)
+
+4. **Restart Claude Code** to activate the plugin.
+
+### Set Your API Key
 
 After installing the plugin, and before running Claude Code again you'll need to configure your Pinecone API key:
 
@@ -44,7 +55,30 @@ export PINECONE_API_KEY="your-api-key-here"
 > **Don't have a Pinecone account?** Sign up for free at [app.pinecone.io](https://app.pinecone.io/?sessionType=signup)
 
 
-### Optional: Install the Pinecone CLI
+### Install UV (Required for Assistant Commands)
+
+To use Pinecone Assistant functionality, you must have UV installed. UV is a fast Python package and project manager:
+
+**macOS and Linux:**
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+**Windows:**
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+**With Homebrew:**
+```bash
+brew install uv
+```
+
+After installation, restart your terminal and verify with: `uv --version`
+
+Full installation guide: https://docs.astral.sh/uv/getting-started/installation/
+
+### Install the Pinecone CLI (Optional)
 
 For additional command-line capabilities, install the Pinecone CLI:
 
@@ -54,6 +88,8 @@ brew install pinecone-io/tap/pinecone
 ```
 
 ## Available Commands
+
+### Core Commands
 
 ### `/pinecone:help`
 
@@ -93,7 +129,77 @@ If you omit required arguments, the command will interactively guide you through
 
 > **Note:** The `/query` command currently only works with integrated indexes that use Pinecone's hosted embedding models. Third-party embedding models (OpenAI, HuggingFace, etc.) are not yet supported.
 
+### Pinecone Assistant Commands
 
+Pinecone Assistant is a fully managed RAG (Retrieval Augmented Generation) service that enables document Q&A with citations. The plugin includes full support with both slash commands and natural language recognition.
+
+#### `/pinecone:assistant-create`
+
+Create a new Pinecone Assistant for document-based Q&A with custom instructions and regional deployment.
+
+**Usage:**
+```
+/pinecone:assistant-create --name my-docs-assistant [--instructions "Use professional tone"] [--region us]
+```
+
+#### `/pinecone:assistant-upload`
+
+Upload files or entire directories to your assistant for indexing. Supports PDF, Markdown, TXT, DOCX, and JSON files.
+
+**Usage:**
+```
+/pinecone:assistant-upload --assistant my-docs-assistant --source ./docs
+```
+
+#### `/pinecone:assistant-sync`
+
+Sync local files with your assistant. Only uploads new or changed files (uses mtime and size detection). Optionally delete files from assistant that no longer exist locally.
+
+**Usage:**
+```
+/pinecone:assistant-sync --assistant my-docs-assistant --source ./docs [--delete-missing] [--dry-run]
+```
+
+#### `/pinecone:assistant-chat`
+
+Chat with your assistant and receive cited responses with page numbers and source references.
+
+**Usage:**
+```
+/pinecone:assistant-chat --assistant my-docs-assistant --message "What is RAG?"
+```
+
+#### `/pinecone:assistant-context`
+
+Retrieve relevant context snippets from your assistant without generating a full chat response. Useful for custom RAG workflows.
+
+**Usage:**
+```
+/pinecone:assistant-context --assistant my-docs-assistant --query "embedding models" [--top-k 5]
+```
+
+#### `/pinecone:assistant-list`
+
+List all assistants in your account with status, region, and file count details.
+
+**Usage:**
+```
+/pinecone:assistant-list [--files]
+```
+
+#### Natural Language Support
+
+The assistant skill automatically recognizes natural language requests without requiring slash commands:
+
+- "Create a Pinecone assistant from my docs"
+- "Upload my docs to the assistant"
+- "Sync my documentation with the assistant"
+- "Ask my assistant about authentication"
+- "Search my assistant for information about embedding models"
+
+The skill remembers the last assistant you used, so you can say "my assistant" or "it" in follow-up requests.
+
+**Learn more:** https://docs.pinecone.io/guides/assistant/quickstart
 
 ## MCP Server Tools
 
@@ -133,9 +239,23 @@ If it's empty, set it and restart Claude Code.
 
 The `/query` command only works with **integrated indexes** that use Pinecone's hosted embedding models. If you're using external embedding providers (OpenAI, HuggingFace, etc.), you'll need to use the MCP tools directly or wait for expanded support.
 
+### Assistant commands not working
+
+Make sure you have UV installed. UV is required for all assistant commands:
+
+```bash
+# Verify UV is installed
+uv --version
+
+# Install if missing
+curl -LsSf https://astral.sh/uv/install.sh | sh  # macOS/Linux
+```
+
+After installing UV, restart your terminal.
+
 ## Keywords
 
-`pinecone` · `semantic search` · `vector search` · `vector database` · `retrieval` · `RAG` · `agentic RAG` · `sparse search`
+`pinecone` · `semantic search` · `vector search` · `vector database` · `retrieval` · `RAG` · `agentic RAG` · `sparse search` · `document Q&A` · `citations` · `assistant` · `managed RAG`
 
 ## License
 
