@@ -14,9 +14,9 @@ A lightweight plugin that integrates [Pinecone](https://www.pinecone.io/) vector
 
 ### Option A: Claude Code Plugins Directory (Recommended)
 
-Install from the official Claude Code Plugins Directory:
+Install from the [official Claude Code Plugins Directory](https://github.com/anthropics/claude-plugins-official):
 
-1. **Install the plugin:**
+1. Install the plugin:
    ```
    /plugin install pinecone
    ```
@@ -46,7 +46,13 @@ Alternatively, install directly from the Pinecone marketplace:
 
 ### Set Your API Key
 
-After installing the plugin, and before running Claude Code again you'll need to configure your Pinecone API key:
+4. Restart Claude Code to activate the plugin.
+
+---
+
+### Set Your API Key
+
+After installing via either method, configure your Pinecone API key before running Claude Code:
 
 ```bash
 export PINECONE_API_KEY="your-api-key-here"
