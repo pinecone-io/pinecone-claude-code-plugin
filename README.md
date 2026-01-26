@@ -55,9 +55,9 @@ export PINECONE_API_KEY="your-api-key-here"
 > **Don't have a Pinecone account?** Sign up for free at [app.pinecone.io](https://app.pinecone.io/?sessionType=signup)
 
 
-### Install UV (Required for Assistant Commands)
+### Install uv (Required for Assistant Commands)
 
-To use Pinecone Assistant functionality, you must have UV installed. UV is a fast Python package and project manager:
+To use Pinecone Assistant functionality, you must have uv installed. uv is a fast Python package and project manager:
 
 **macOS and Linux:**
 ```bash
@@ -241,17 +241,17 @@ The `/query` command only works with **integrated indexes** that use Pinecone's 
 
 ### Assistant commands not working
 
-Make sure you have UV installed. UV is required for all assistant commands:
+Make sure you have uv installed. uv is required for all assistant commands:
 
 ```bash
-# Verify UV is installed
+# Verify uv is installed
 uv --version
 
 # Install if missing
 curl -LsSf https://astral.sh/uv/install.sh | sh  # macOS/Linux
 ```
 
-After installing UV, restart your terminal.
+After installing uv, restart your terminal.
 
 ## Keywords
 
