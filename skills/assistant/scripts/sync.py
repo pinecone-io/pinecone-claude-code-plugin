@@ -22,7 +22,7 @@ Output:
 import os
 import hashlib
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import typer
 from rich.console import Console
 from rich.panel import Panel
@@ -135,7 +135,7 @@ def main(
         # Build map of file_path -> file object
         remote_file_map = {}
         for f in remote_files:
-            metadata = getattr(f, 'metadata', {})
+            metadata = getattr(f, 'metadata', {}) or {}
             file_path = metadata.get('file_path', f.name)
             remote_file_map[file_path] = {
                 'file_obj': f,
@@ -286,7 +286,7 @@ def main(
                                 'file_path': item['rel_path'],
                                 'mtime': item['local_info']['mtime'],
                                 'size': item['local_info']['size'],
-                                'uploaded_at': datetime.utcnow().isoformat(),
+                                'uploaded_at': datetime.now(timezone.utc).isoformat(),
                                 'source': 'sync_script',
                             },
                             timeout=None
@@ -312,7 +312,7 @@ def main(
                                 'file_path': item['rel_path'],
                                 'mtime': item['local_info']['mtime'],
                                 'size': item['local_info']['size'],
-                                'uploaded_at': datetime.utcnow().isoformat(),
+                                'uploaded_at': datetime.now(timezone.utc).isoformat(),
                                 'source': 'sync_script',
                             },
                             timeout=None

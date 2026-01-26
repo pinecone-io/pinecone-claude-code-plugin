@@ -27,6 +27,7 @@ import os
 import glob
 from pathlib import Path
 from typing import List
+from datetime import datetime, timezone
 import typer
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn, BarColumn, TaskProgressColumn
@@ -159,11 +160,15 @@ def main(
                 try:
                     # Build metadata
                     rel_path = os.path.relpath(str(file_path), source)
+                    stat = file_path.stat()
                     metadata = {
                         "source": "upload_script",
                         "file_path": rel_path,
                         "file_type": file_path.suffix,
                         "content_type": "documentation",
+                        "mtime": stat.st_mtime,
+                        "size": stat.st_size,
+                        "uploaded_at": datetime.now(timezone.utc).isoformat(),
                         **extra_metadata,
                     }
 

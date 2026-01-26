@@ -1,3 +1,9 @@
+---
+name: pinecone-assistant
+description: Create, manage, and chat with Pinecone Assistants for document Q&A. Automatically recognizes natural language requests like "create an assistant from my docs" or "ask my assistant about authentication" without requiring slash commands.
+allowed-tools: Bash, Read, Glob, AskUserQuestion
+---
+
 # Pinecone Assistant Skill
 
 ## 🎯 Natural Language Mode (IMPORTANT - READ THIS FIRST)
@@ -125,6 +131,7 @@ Pinecone Assistant is a fully managed RAG (Retrieval Augmented Generation) servi
 - **Customer support knowledge bases** - Help articles, FAQs, troubleshooting guides
 - **Internal company knowledge management** - Policies, procedures, meeting notes
 - **Technical writing** - Specifications, design docs, RFCs
+-- Creating instant-expert RAG agents for workflows -- It's super easy to create a Pinecone Assistant, and then use the Context API to send information to other agents
 
 **Important Note**: Pinecone Assistant is optimized for **document-based content** (PDFs, markdown, text files with natural language). It is **not recommended for indexing codebases** at this time. For code search and understanding, consider using Pinecone's vector database with specialized code embeddings instead.
 
@@ -529,8 +536,4 @@ This skill provides Python scripts that Claude Code can invoke via `uv run`:
 - **`chat.py`** - Chat with assistant and get cited responses
 - **`context.py`** - Retrieve context snippets from assistant
 
-All scripts assume `PINECONE_API_KEY` is set in the environment.
-
-## Keywords
-
-`pinecone assistant` · `rag` · `retrieval augmented generation` · `document qa` · `semantic search` · `citations` · `mcp server` · `knowledge base` · `context retrieval` · `file sync` · `document sync`
+All scripts assume `PINECONE_API_KEY` is set in the environment, and uv is installed.
