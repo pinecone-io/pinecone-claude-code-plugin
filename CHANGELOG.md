@@ -1,8 +1,6 @@
 # Changelog
 
-All notable changes to the Pinecone Plugin for Claude Code will be documented in this file.
-
-## [1.1.0] - 2026-01-22
+## [1.1.0] - 2026-01-26
 
 ### Added
 
@@ -18,6 +16,7 @@ All notable changes to the Pinecone Plugin for Claude Code will be documented in
 - **`/pinecone:assistant-chat`** - Chat with assistants and receive cited responses with source references
 - **`/pinecone:assistant-context`** - Retrieve relevant context snippets without generating full chat responses
 - **`/pinecone:assistant-list`** - List all assistants in your account with status and configuration details
+- **`/pinecone:join-discord`** - Opens link to join the Pinecone Discord community for help, support, and connecting with the Pinecone team
 
 
 #### Python Scripts
