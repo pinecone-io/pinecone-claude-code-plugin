@@ -4,6 +4,8 @@ description: Create, manage, and chat with Pinecone Assistants for document Q&A.
 allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
 
+ALWAYS invoke this skill before running any assistant-* commands, as it will inform you of the correct directories for associated scripts!
+
 # Pinecone Assistant Skill
 
 > **All paths are relative to the directory containing this SKILL.md file.**
