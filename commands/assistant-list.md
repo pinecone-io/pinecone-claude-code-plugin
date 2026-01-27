@@ -1,5 +1,5 @@
 ---
-description: List all Pinecone Assistants in your account with optional file details
+description: List all Pinecone Assistants in your account with optional file details. Must invoke assistant skill before running!
 argument-hint: [--files] [--json]
 model: claude-haiku-4-5
 allowed-tools: Skill(assistant *), Bash, BashOutput, Read
