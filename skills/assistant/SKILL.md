@@ -1,10 +1,13 @@
 ---
 name: pinecone-assistant
-description: Create, manage, and chat with Pinecone Assistants for document Q&A. Automatically recognizes natural language requests like "create an assistant from my docs" or "ask my assistant about authentication" without requiring slash commands.
+description: Create, manage, and chat with Pinecone Assistants for document Q&A. Automatically recognizes natural language requests like "create an assistant from my docs" or "ask my assistant about authentication" without requiring slash commands. ALWAYS invoke when using Pinecone Assistant related commands
 allowed-tools: Bash, Read, Glob, AskUserQuestion
 ---
 
 # Pinecone Assistant Skill
+
+> **All paths are relative to the directory containing this SKILL.md file.**
+> Scripts are run with: `uv run scripts/script_name.py [arguments]`
 
 ## 🎯 Natural Language Mode (IMPORTANT - READ THIS FIRST)
 
@@ -17,7 +20,7 @@ allowed-tools: Bash, Read, Glob, AskUserQuestion
 - "Make an assistant for my documentation"
 - "Set up an assistant called [name]"
 
-→ Run: `uv run skills/assistant/scripts/create.py --name [name]`
+→ Run: `uv run scripts/create.py --name [name]`
 → Use AskUserQuestion if name is missing
 
 **Uploading Files:**
@@ -25,7 +28,7 @@ allowed-tools: Bash, Read, Glob, AskUserQuestion
 - "Add files from ./documentation to [assistant]"
 - "Index my local files"
 
-→ Run: `uv run skills/assistant/scripts/upload.py --assistant [name] --source [path]`
+→ Run: `uv run scripts/upload.py --assistant [name] --source [path]`
 → Use AskUserQuestion if missing info
 
 **Syncing Files:**
@@ -34,7 +37,7 @@ allowed-tools: Bash, Read, Glob, AskUserQuestion
 - "Refresh [assistant] from ./docs"
 - "Keep [assistant] in sync with my documentation"
 
-→ Run: `uv run skills/assistant/scripts/sync.py --assistant [name] --source [path]`
+→ Run: `uv run scripts/sync.py --assistant [name] --source [path]`
 → Sync only uploads new/changed files (uses mtime + size detection)
 → Add `--delete-missing` if user wants to remove files that no longer exist locally
 → Add `--dry-run` to preview changes without executing
@@ -44,20 +47,20 @@ allowed-tools: Bash, Read, Glob, AskUserQuestion
 - "What does my assistant know about [topic]?"
 - "Chat with [assistant]: [question]"
 
-→ Run: `uv run skills/assistant/scripts/chat.py --assistant [name] --message "[question]"`
+→ Run: `uv run scripts/chat.py --assistant [name] --message "[question]"`
 → **IMPORTANT**: Remember the last assistant used - if user says "my assistant" or doesn't specify, use the last one mentioned
 
 **Getting Context:**
 - "Search my assistant for [topic]"
 - "Find context about [topic]"
 
-→ Run: `uv run skills/assistant/scripts/context.py --assistant [name] --query "[topic]"`
+→ Run: `uv run scripts/context.py --assistant [name] --query "[topic]"`
 
 **Listing Assistants:**
 - "Show my assistants"
 - "What assistants do I have?"
 
-→ Run: `uv run skills/assistant/scripts/list.py`
+→ Run: `uv run scripts/list.py`
 
 ### 🧠 Conversation Memory (CRITICAL)
 
@@ -91,16 +94,16 @@ Handle chained requests naturally:
 "Create an assistant called docs-bot, upload my ./docs folder, and ask what the main features are"
 
 → Execute in sequence:
-1. `create.py --name docs-bot`
-2. `upload.py --assistant docs-bot --source ./docs`
-3. `chat.py --assistant docs-bot --message "what are the main features?"`
+1. `uv run scripts/create.py --name docs-bot`
+2. `uv run scripts/upload.py --assistant docs-bot --source ./docs`
+3. `uv run scripts/chat.py --assistant docs-bot --message "what are the main features?"`
 
 **Example 2: Sync + Query**
 "Update my assistant with the latest docs and tell me what changed about authentication"
 
 → Execute in sequence:
-1. `sync.py --assistant [remembered-assistant] --source ./docs`
-2. `chat.py --assistant [remembered-assistant] --message "what changed about authentication?"`
+1. `uv run scripts/sync.py --assistant [remembered-assistant] --source ./docs`
+2. `uv run scripts/chat.py --assistant [remembered-assistant] --message "what changed about authentication?"`
 
 ### Best Practices for Natural Mode
 

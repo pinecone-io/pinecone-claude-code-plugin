@@ -5,6 +5,9 @@ allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
 ---
 
+> **Script paths are relative to the plugin root directory.**
+> Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`
+
 ## Overview
 
 Chat with a Pinecone Assistant and receive cited responses. This command invokes the assistant chat script to send messages and display responses with citations.

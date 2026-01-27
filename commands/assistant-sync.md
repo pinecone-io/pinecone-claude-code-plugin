@@ -4,6 +4,9 @@ argument-hint: assistant [name] source [path] [--delete-missing] [--dry-run]
 allowed-tools: Bash, Read, AskUserQuestion
 ---
 
+> **Script paths are relative to the plugin root directory.**
+> Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`
+
 ## Overview
 
 Intelligently sync local files to a Pinecone Assistant by only uploading new or changed files. Uses file modification time and size to detect changes, avoiding unnecessary re-uploads.
