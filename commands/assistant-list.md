@@ -2,7 +2,7 @@
 description: List all Pinecone Assistants in your account with optional file details. 
 argument-hint: [--files] [--json]
 model: claude-haiku-4-5
-allowed-tools: Skill(pinecone *), Bash, BashOutput, Read
+allowed-tools: Skill, Bash, BashOutput, Read
 ---
 
 Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow

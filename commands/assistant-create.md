@@ -2,7 +2,7 @@
 description: Create a new Pinecone Assistant for document Q&A with citations
 argument-hint: assistant [name] [--instructions "behavior"] [--region us|eu]
 model: claude-haiku-4-5
-allowed-tools: Skill(pinecone *), Bash, BashOutput, Read
+allowed-tools: Skill, Bash, BashOutput, Read, AskUserQuestion
 ---
 
 Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow
