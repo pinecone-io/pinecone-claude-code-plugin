@@ -1,7 +1,7 @@
 ---
 description: Upload files or repository contents to a Pinecone Assistant's knowledge base
 argument-hint: assistant [name] source [path] [--patterns "*.md,*.py"]
-allowed-tools: Skill(assistant *), Bash, BashOutput, Read
+allowed-tools: Skill(pinecone *), Bash, BashOutput, Read
 ---
 
 Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow

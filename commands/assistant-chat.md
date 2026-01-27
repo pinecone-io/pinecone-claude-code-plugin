@@ -2,7 +2,7 @@
 description: Chat with a Pinecone Assistant and receive answers with source citations
 argument-hint: assistant [name] message [your question]
 model: claude-haiku-4-5
-allowed-tools: Skill(assistant *), Bash, BashOutput, Read
+allowed-tools: Skill(pinecone *), Bash, BashOutput, Read
 ---
 
 Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow

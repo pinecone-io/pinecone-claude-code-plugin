@@ -1,7 +1,7 @@
 ---
 description: Sync local files to a Pinecone Assistant, only uploading new or changed files
 argument-hint: assistant [name] source [path] [--delete-missing] [--dry-run]
-allowed-tools: Skill(assistant *), Bash, BashOutput, Read
+allowed-tools: Skill(pinecone *), Bash, BashOutput, Read
 ---
 
 Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow
