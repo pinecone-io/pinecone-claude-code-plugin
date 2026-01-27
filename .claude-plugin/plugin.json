@@ -5,5 +5,5 @@
     "author": {
         "name": "Pinecone"
     },
-    "keywords": ["pinecone", "semantic search", "retrieval", "vector search", "vector database", "retrieval augmented generation", "rag", "agentic rag", "sparse search"]
+    "keywords": ["pinecone", "semantic search", "retrieval", "vector search", "vector database", "retrieval augmented generation", "rag", "agentic rag", "sparse search", "assistant", "pinecone assistant", "rag chatbot"]
 }
