@@ -2,6 +2,7 @@
 description: List all Pinecone Assistants in your account with optional file details
 argument-hint: [--files] [--json]
 model: claude-haiku-4-5
+allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
 
 > **Script paths are relative to the plugin root directory.**

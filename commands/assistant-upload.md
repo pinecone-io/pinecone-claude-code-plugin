@@ -1,6 +1,7 @@
 ---
 description: Upload files or repository contents to a Pinecone Assistant's knowledge base
 argument-hint: assistant [name] source [path] [--patterns "*.md,*.py"]
+allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
 
 > **Script paths are relative to the plugin root directory.**

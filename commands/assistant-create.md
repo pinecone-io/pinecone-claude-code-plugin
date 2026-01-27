@@ -2,6 +2,7 @@
 description: Create a new Pinecone Assistant for document Q&A with citations
 argument-hint: assistant [name] [--instructions "behavior"] [--region us|eu]
 model: claude-haiku-4-5
+allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
 
 > **Script paths are relative to the plugin root directory.**

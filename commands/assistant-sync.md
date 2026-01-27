@@ -1,6 +1,7 @@
 ---
 description: Sync local files to a Pinecone Assistant, only uploading new or changed files
 argument-hint: assistant [name] source [path] [--delete-missing] [--dry-run]
+allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
 
 > **Script paths are relative to the plugin root directory.**

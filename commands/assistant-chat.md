@@ -2,6 +2,7 @@
 description: Chat with a Pinecone Assistant and receive answers with source citations
 argument-hint: assistant [name] message [your question]
 model: claude-haiku-4-5
+allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
 
 > **Script paths are relative to the plugin root directory.**

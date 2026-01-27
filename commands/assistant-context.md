@@ -2,6 +2,7 @@
 description: Retrieve context snippets from a Pinecone Assistant's knowledge base
 argument-hint: assistant [name] query [search text] [--top-k 5]
 model: claude-haiku-4-5
+allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
 
 > **Script paths are relative to the plugin root directory.**
