@@ -5,6 +5,9 @@ allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
 ---
 
+> **Script paths are relative to the plugin root directory.**
+> Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`
+
 ## Overview
 
 Retrieve relevant context snippets from a Pinecone Assistant's knowledge base without generating a full chat response. This is useful for:

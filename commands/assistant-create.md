@@ -5,6 +5,9 @@ allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
 ---
 
+> **Script paths are relative to the plugin root directory.**
+> Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`
+
 ## Overview
 
 Create a new Pinecone Assistant with custom configuration. This command invokes the assistant creation script to set up a new assistant for RAG workflows.

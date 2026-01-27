@@ -4,6 +4,9 @@ argument-hint: assistant [name] source [path] [--patterns "*.md,*.py"]
 allowed-tools: Bash, Read, Glob, AskUserQuestion
 ---
 
+> **Script paths are relative to the plugin root directory.**
+> Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`
+
 ## Overview
 
 Upload files or entire repository contents to a Pinecone Assistant. This command helps users provide knowledge to their assistants by uploading **documentation and text-based files**.

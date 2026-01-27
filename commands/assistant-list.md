@@ -5,6 +5,9 @@ allowed-tools: Bash, Read
 model: claude-haiku-4-5
 ---
 
+> **Script paths are relative to the plugin root directory.**
+> Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`
+
 ## Overview
 
 List all Pinecone Assistants in your account. Optionally include detailed file listings for each assistant using the `--files` flag.
