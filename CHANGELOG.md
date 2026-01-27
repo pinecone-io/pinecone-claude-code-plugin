@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.1] - 2026-01-26
+
+### Fixed
+- **Script Path Resolution**: Fixed script paths to use correct relative paths for marketplace installation
+  - SKILL.md now uses `scripts/` (relative to skill directory)
+  - Commands now use `skills/assistant/scripts/` (relative to plugin root)
+  - Added documentation note explaining path structure
+  - Scripts now properly accessible when plugin is installed from marketplace
+
 ## [1.1.0] - 2026-01-26
 
 ### Added
