@@ -1,7 +1,6 @@
 ---
 description: Retrieve context snippets from a Pinecone Assistant's knowledge base
 argument-hint: assistant [name] query [search text] [--top-k 5]
-allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
 ---
 

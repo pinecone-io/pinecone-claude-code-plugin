@@ -1,7 +1,6 @@
 ---
 description: Create a new Pinecone Assistant for document Q&A with citations
 argument-hint: assistant [name] [--instructions "behavior"] [--region us|eu]
-allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
 ---
 
