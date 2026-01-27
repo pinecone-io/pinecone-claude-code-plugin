@@ -1,9 +1,12 @@
 ---
 description: Retrieve context snippets from a Pinecone Assistant's knowledge base
 argument-hint: assistant [name] query [search text] [--top-k 5]
-allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
+allowed-tools: Skill, Bash, BashOutput, Read
 ---
+
+Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow
+correct resolution of plugin root directory for scripts being run.
 
 > **Script paths are relative to the plugin root directory.**
 > Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`

@@ -1,8 +1,10 @@
 ---
 name: pinecone-assistant
-description: Create, manage, and chat with Pinecone Assistants for document Q&A. Automatically recognizes natural language requests like "create an assistant from my docs" or "ask my assistant about authentication" without requiring slash commands. ALWAYS invoke when using Pinecone Assistant related commands
-allowed-tools: Bash, Read, Glob, AskUserQuestion
+description: Main skill for all Pinecone Assistant operations. Read this first! Create, manage, and chat with Pinecone Assistants for document Q&A. Automatically recognizes natural language requests like "create an assistant from my docs" or "ask my assistant about authentication" without requiring slash commands. ALWAYS invoke when using Pinecone Assistant related commands
+allowed-tools: Skill(assistant *), Bash, BashOutput, Read
 ---
+
+ALWAYS invoke this skill before running any assistant-* commands, as it will inform you of the correct directories for associated scripts!
 
 # Pinecone Assistant Skill
 

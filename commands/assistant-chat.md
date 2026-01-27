@@ -1,9 +1,12 @@
 ---
 description: Chat with a Pinecone Assistant and receive answers with source citations
 argument-hint: assistant [name] message [your question]
-allowed-tools: Bash, Read, AskUserQuestion
 model: claude-haiku-4-5
+allowed-tools: Skill, Bash, BashOutput, Read
 ---
+
+Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow
+correct resolution of plugin root directory for scripts being run.
 
 > **Script paths are relative to the plugin root directory.**
 > Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`

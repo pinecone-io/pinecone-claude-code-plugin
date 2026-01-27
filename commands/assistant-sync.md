@@ -1,8 +1,11 @@
 ---
 description: Sync local files to a Pinecone Assistant, only uploading new or changed files
 argument-hint: assistant [name] source [path] [--delete-missing] [--dry-run]
-allowed-tools: Bash, Read, AskUserQuestion
+allowed-tools: Skill, Bash, BashOutput, Read
 ---
+
+Before proceeding, ALWAYS INVOKE the pinecone:assistant skill before commencing workflow. This will allow
+correct resolution of plugin root directory for scripts being run.
 
 > **Script paths are relative to the plugin root directory.**
 > Run scripts with: `uv run skills/assistant/scripts/script_name.py [arguments]`
