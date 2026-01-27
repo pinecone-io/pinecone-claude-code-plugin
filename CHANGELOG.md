@@ -1,4 +1,12 @@
 # Changelog
+## [1.1.2] - 2026-01-27
+### Fixed
+
+More issues with script path resolution
+- explictly added invocation of assistant skill before subcommands
+- explictly added permissions for skill usage
+- passes internal testing
+
 
 ## [1.1.1] - 2026-01-26
 

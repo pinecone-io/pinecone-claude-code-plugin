@@ -1,6 +1,6 @@
 ---
 description: Explain how to use the Pinecone plugin with Claude Code. Helps users set API keys, learn existing functionality, or do a quickstart.
-allowed-tools: Skill(assistant *), Bash, BashOutput, Read
+allowed-tools: Skill(pinecone *), Bash, BashOutput, Read
 model: claude-haiku-4-5
 ---
 
