@@ -1,6 +1,7 @@
 ---
-name: pinecone-help
+name: pinecone:help
 description: Overview of all available Pinecone skills and what a user needs to get started. Invoke when a user asks what skills are available, how to get started with Pinecone, or what they need to set up before using any Pinecone skill.
+allowed-tools: Skill
 ---
 
 # Pinecone Skills — Help & Overview
@@ -15,11 +16,10 @@ Here's everything you need to get started and a summary of all available skills.
 
 ### Required
 - **Pinecone account** — free to create at https://app.pinecone.io/?sessionType=signup
-- **API key** — create one in the Pinecone console after signing up, then either export it in your terminal:
+- **API key** — create one in the Pinecone console after signing up, then export it in your terminal:
   ```bash
   export PINECONE_API_KEY="your-key"
   ```
-  Or add it to a `.env` file if your IDE doesn't inherit shell variables: `PINECONE_API_KEY=your-key`
 
 ### Optional (unlock more capabilities)
 
@@ -35,27 +35,27 @@ Here's everything you need to get started and a summary of all available skills.
 
 | Skill | What it does |
 |---|---|
-| `pinecone-quickstart` | Step-by-step onboarding — create an index, upload data, and run your first search |
-| `pinecone-query` | Search integrated indexes using natural language text via the Pinecone MCP |
-| `pinecone-cli` | Use the Pinecone CLI (`pc`) for terminal-based index and vector management |
-| `pinecone-assistant` | Create, manage, and chat with Pinecone Assistants for document Q&A with citations |
-| `pinecone-mcp` | Reference for all Pinecone MCP server tools and their parameters |
-| `pinecone-docs` | Curated links to official Pinecone documentation, organized by topic |
+| `pinecone:quickstart` | Step-by-step onboarding — create an index, upload data, and run your first search |
+| `pinecone:query` | Search integrated indexes using natural language text via the Pinecone MCP |
+| `pinecone:cli` | Use the Pinecone CLI (`pc`) for terminal-based index and vector management |
+| `pinecone:assistant` | Create, manage, and chat with Pinecone Assistants for document Q&A with citations |
+| `pinecone:mcp` | Reference for all Pinecone MCP server tools and their parameters |
+| `pinecone:docs` | Curated links to official Pinecone documentation, organized by topic |
 
 ---
 
 ## Which skill should I use?
 
-**Just getting started?** → `pinecone-quickstart`
+**Just getting started?** → `pinecone:quickstart`
 
 **Want to search an index you already have?**
-- Integrated index (built-in embedding model) → `pinecone-query` (uses MCP)
-- Any other index type → `pinecone-cli`
+- Integrated index (built-in embedding model) → `pinecone:query` (uses MCP)
+- Any other index type → `pinecone:cli`
 
-**Working with documents and Q&A?** → `pinecone-assistant`
+**Working with documents and Q&A?** → `pinecone:assistant`
 
-**Need to manage indexes, bulk upload vectors, or automate workflows?** → `pinecone-cli`
+**Need to manage indexes, bulk upload vectors, or automate workflows?** → `pinecone:cli`
 
-**Looking up API parameters or SDK usage?** → `pinecone-docs`
+**Looking up API parameters or SDK usage?** → `pinecone:docs`
 
-**Need to understand what MCP tools are available?** → `pinecone-mcp`
+**Need to understand what MCP tools are available?** → `pinecone:mcp`
