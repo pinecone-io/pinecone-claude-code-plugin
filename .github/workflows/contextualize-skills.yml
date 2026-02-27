@@ -23,9 +23,13 @@ jobs:
       - name: Run Claude Code
         uses: anthropics/claude-code-action@v1
         with:
-          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ github.token }}
+          claude_args: '--allowedTools "Read,Write,Edit,Bash(git:*)"'
           prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
             You are adapting incoming Pinecone skill files for this plugin's conventions.
 
             1. Read `CLAUDE.md` in this repo — it describes exactly how skills should be structured here.
