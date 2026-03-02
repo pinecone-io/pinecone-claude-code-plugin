@@ -207,8 +207,8 @@ def main(
         # Next steps
         if uploaded > 0:
             next_steps = f"""[bold]Next steps:[/bold]
-• Chat: [cyan]/pinecone:assistant-chat assistant {assistant} message [your question][/cyan]
-• Context: [cyan]/pinecone:assistant-context assistant {assistant} query [search][/cyan]
+• Chat: [cyan]/pinecone:assistant[/cyan] — "ask {assistant} about [your question]"
+• Context: [cyan]/pinecone:assistant[/cyan] — "search {assistant} for context about [topic]"
 
 [dim]Note: Files are being processed and will be available shortly[/dim]"""
             console.print(Panel(next_steps, title="What's Next?", border_style="green"))
