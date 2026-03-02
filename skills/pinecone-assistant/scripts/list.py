@@ -184,10 +184,10 @@ def main(
 
             # Next steps panel
             next_steps = """[bold]Next steps:[/bold]
-\u2022 List with files: [cyan]/pinecone:assistant[/cyan] \u2014 "list my assistants with their files"
-\u2022 Chat: [cyan]/pinecone:assistant[/cyan] \u2014 "ask [name] about [your question]"
-\u2022 Upload: [cyan]/pinecone:assistant[/cyan] \u2014 "upload files from [path] to [name]"
-\u2022 Context: [cyan]/pinecone:assistant[/cyan] \u2014 "search [name] for context about [topic]""""
+\u2022 List with files: [cyan]/pinecone:assistant[/cyan] \u2014 list my assistants with their files
+\u2022 Chat: [cyan]/pinecone:assistant[/cyan] \u2014 ask [name] about [your question]
+\u2022 Upload: [cyan]/pinecone:assistant[/cyan] \u2014 upload files from [path] to [name]
+\u2022 Context: [cyan]/pinecone:assistant[/cyan] \u2014 search [name] for context about [topic]"""
 
             console.print(Panel(next_steps, title="Available Commands", border_style="blue"))
 
