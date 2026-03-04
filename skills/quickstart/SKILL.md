@@ -162,7 +162,7 @@ Before anything else, use AskUserQuestion to ask if the user has files to upload
 
 Invoke `pinecone:assistant` or run:
 ```bash
-uv run ../pinecone-assistant/scripts/create.py --name my-assistant
+uv run ../assistant/scripts/create.py --name my-assistant
 ```
 
 Explain: The assistant is a fully managed RAG service — upload documents, ask questions, get cited answers.
@@ -171,7 +171,7 @@ Explain: The assistant is a fully managed RAG service — upload documents, ask 
 
 Invoke `pinecone:assistant` or run:
 ```bash
-uv run ../pinecone-assistant/scripts/upload.py --assistant my-assistant --source ./your-docs
+uv run ../assistant/scripts/upload.py --assistant my-assistant --source ./your-docs
 ```
 
 Explain: Pinecone handles chunking, embedding, and indexing automatically — no configuration needed.
@@ -180,7 +180,7 @@ Explain: Pinecone handles chunking, embedding, and indexing automatically — no
 
 Invoke `pinecone:assistant` or run:
 ```bash
-uv run ../pinecone-assistant/scripts/chat.py --assistant my-assistant --message "What are the main topics in these documents?"
+uv run ../assistant/scripts/chat.py --assistant my-assistant --message "What are the main topics in these documents?"
 ```
 
 Explain: Responses include citations with source file and page number.
