@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'sync/skills-')
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     permissions:
@@ -53,12 +53,39 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           jq --arg v "$NEW_VERSION" '.version = $v' .claude-plugin/plugin.json > tmp.json && mv tmp.json .claude-plugin/plugin.json
 
+      - name: Update changelog
+        env:
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          HEADER="## [$NEW_VERSION] - $DATE"
+
+          # Generate changelog bullets from commit messages in the PR
+          BULLETS=$(gh pr view "$PR_NUMBER" --json commits --jq '.commits[].messageHeadline' | grep -v '^chore:' | grep -v '^\[create-pull-request\]' | sed 's/^/- /')
+
+          if [ -z "$BULLETS" ]; then
+            BULLETS="- ${{ github.event.pull_request.title }}"
+          fi
+
+          # Build the new changelog entry
+          ENTRY=$(printf '%s\n%s\n' "$HEADER" "$BULLETS")
+
+          # Insert after the "# Changelog" header line
+          if grep -q '^# Changelog' CHANGELOG.md; then
+            awk -v entry="$ENTRY" '/^# Changelog/{print; print ""; print entry; next}1' CHANGELOG.md > tmp_changelog.md && mv tmp_changelog.md CHANGELOG.md
+          else
+            # No header found — prepend entry to file
+            printf '%s\n\n%s' "$ENTRY" "$(cat CHANGELOG.md)" > CHANGELOG.md
+          fi
+
       - name: Commit and tag
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git rm -r --ignore-unmatch test-marketplace
-          git add .claude-plugin/plugin.json
+          git add .claude-plugin/plugin.json CHANGELOG.md
           git commit -m "release: bump version to v${{ steps.version.outputs.new_version }}"
           git tag "v${{ steps.version.outputs.new_version }}"
           git push origin main

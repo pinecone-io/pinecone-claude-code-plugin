@@ -14,7 +14,7 @@ The base repo uses hyphenated names like `pinecone-quickstart`. Claude Code uses
 
 Replace the `pinecone-` prefix with `pinecone:` in the `name` frontmatter field and in any cross-references between skills throughout the content.
 
-Do not rename the skill directories — only the `name` field and references within content.
+Rename skill directories to strip the `pinecone-` prefix — the plugin already namespaces with `pinecone:`, so the directory should just be the skill name (e.g., `assistant/`, `quickstart/`, `cli/`).
 
 ---
 

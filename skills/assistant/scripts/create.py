@@ -111,9 +111,9 @@ export PINECONE_ASSISTANT_HOST="{host}"
 
         # Next steps
         next_steps = f"""[bold]Next steps:[/bold]
-1. Upload files: [cyan]/pinecone:assistant-upload assistant {name} source [path][/cyan]
-2. Chat: [cyan]/pinecone:assistant-chat assistant {name} message [your question][/cyan]
-3. Get context: [cyan]/pinecone:assistant-context assistant {name} query [search][/cyan]"""
+1. Upload files: [cyan]/pinecone:assistant[/cyan] \u2014 upload files from [path] to {name}
+2. Chat: [cyan]/pinecone:assistant[/cyan] \u2014 ask {name} about [your question]
+3. Get context: [cyan]/pinecone:assistant[/cyan] \u2014 search {name} for context about [topic]"""
 
         console.print(Panel(next_steps, title="What's Next?", border_style="green"))
 

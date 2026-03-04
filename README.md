@@ -46,12 +46,6 @@ Alternatively, install directly from the Pinecone marketplace:
 
 ### Set Your API Key
 
-4. Restart Claude Code to activate the plugin.
-
----
-
-### Set Your API Key
-
 After installing via either method, configure your Pinecone API key before running Claude Code:
 
 ```bash
@@ -93,119 +87,51 @@ brew tap pinecone-io/tap
 brew install pinecone-io/tap/pinecone
 ```
 
-## Available Commands
-
-### Core Commands
+## Available Skills
 
 ### `/pinecone:help`
 
-Display help information about the plugin, including:
-- Available functionality
-- API key configuration
-- Troubleshooting tips
-
-Run this when first installing the Plugin, then proceed to the quickstart.
+Overview of all available Pinecone skills and what you need to get started. Run this when first installing the plugin.
 
 ### `/pinecone:quickstart`
 
-Get started quickly with Pinecone! This command:
-1. Downloads and generates an AGENTS.md file, optimized for use with Claude Code and Pinecone
-2. Walks you through a Python quickstart tutorial
-3. Helps you create your first index and perform semantic searches
+Interactive quickstart for new developers. Choose between two paths:
+- **Database** — Create an integrated index, upsert data, and query using Pinecone MCP + Python
+- **Assistant** — Create a Pinecone Assistant for document Q&A with citations
 
 ### `/pinecone:query`
 
-Query your Pinecone indexes using natural language. This command wraps the Pinecone MCP server for easy searching of integrated indexes.
-Most useful when you already have an integrated index created, and want to query it quickly from Claude.
+Query integrated indexes using natural language. Wraps the Pinecone MCP server for easy searching.
 
-**Usage:**
 ```
 /pinecone:query query [your search text] index [indexName] namespace [ns] reranker [rerankModel]
 ```
 
-**Parameters:**
-| Parameter | Required | Description |
-|-----------|----------|-------------|
-| `query` | Yes | The text to search for |
-| `index` | Yes | The name of the Pinecone index to search |
-| `namespace` | No | The namespace within the index |
-| `reranker` | No | The reranking model to use for improved relevance |
+> **Note:** Only works with integrated indexes that use Pinecone's hosted embedding models.
 
-If you omit required arguments, the command will interactively guide you through selecting available indexes and namespaces.
+### `/pinecone:assistant`
 
-> **Note:** The `/query` command currently only works with integrated indexes that use Pinecone's hosted embedding models. Third-party embedding models (OpenAI, HuggingFace, etc.) are not yet supported.
-
-### Pinecone Assistant Commands
-
-Pinecone Assistant is a fully managed RAG (Retrieval Augmented Generation) service that enables document Q&A with citations. The plugin includes full support with both slash commands and natural language recognition.
-
-#### `/pinecone:assistant-create`
-
-Create a new Pinecone Assistant for document-based Q&A with custom instructions and regional deployment.
-
-**Usage:**
-```
-/pinecone:assistant-create --name my-docs-assistant [--instructions "Use professional tone"] [--region us]
-```
-
-#### `/pinecone:assistant-upload`
-
-Upload files or entire directories to your assistant for indexing. Supports PDF, Markdown, TXT, DOCX, and JSON files.
-
-**Usage:**
-```
-/pinecone:assistant-upload --assistant my-docs-assistant --source ./docs
-```
-
-#### `/pinecone:assistant-sync`
-
-Sync local files with your assistant. Only uploads new or changed files (uses mtime and size detection). Optionally delete files from assistant that no longer exist locally.
-
-**Usage:**
-```
-/pinecone:assistant-sync --assistant my-docs-assistant --source ./docs [--delete-missing] [--dry-run]
-```
-
-#### `/pinecone:assistant-chat`
-
-Chat with your assistant and receive cited responses with page numbers and source references.
-
-**Usage:**
-```
-/pinecone:assistant-chat --assistant my-docs-assistant --message "What is RAG?"
-```
-
-#### `/pinecone:assistant-context`
-
-Retrieve relevant context snippets from your assistant without generating a full chat response. Useful for custom RAG workflows.
-
-**Usage:**
-```
-/pinecone:assistant-context --assistant my-docs-assistant --query "embedding models" [--top-k 5]
-```
-
-#### `/pinecone:assistant-list`
-
-List all assistants in your account with status, region, and file count details.
-
-**Usage:**
-```
-/pinecone:assistant-list [--files]
-```
-
-#### Natural Language Support
-
-The assistant skill automatically recognizes natural language requests without requiring slash commands:
+All-in-one skill for Pinecone Assistants — create, upload, sync, chat, context retrieval, and list. Works with both slash commands and natural language:
 
 - "Create a Pinecone assistant from my docs"
-- "Upload my docs to the assistant"
-- "Sync my documentation with the assistant"
+- "Upload files from ./docs to my-assistant"
+- "Sync my assistant with the docs folder"
 - "Ask my assistant about authentication"
-- "Search my assistant for information about embedding models"
-
-The skill remembers the last assistant you used, so you can say "my assistant" or "it" in follow-up requests.
+- "Search my assistant for context about embeddings"
 
 **Learn more:** https://docs.pinecone.io/guides/assistant/quickstart
+
+### `/pinecone:cli`
+
+Guide for using the Pinecone CLI (`pc`) to manage resources from the terminal. The CLI supports all index types and vector operations.
+
+### `/pinecone:mcp`
+
+Reference for all Pinecone MCP server tools — parameters, usage, and examples.
+
+### `/pinecone:docs`
+
+Curated documentation reference with links to official docs organized by topic and data format references.
 
 ## MCP Server Tools
 
