@@ -55,22 +55,18 @@ jobs:
 
       - name: Update changelog
         env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_BODY: ${{ github.event.pull_request.body }}
           NEW_VERSION: ${{ steps.version.outputs.new_version }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           DATE=$(date +%Y-%m-%d)
           HEADER="## [$NEW_VERSION] - $DATE"
 
-          # Extract summary bullets from PR body, or fall back to PR title
-          BULLETS=""
-          if echo "$PR_BODY" | grep -qi '## Summary'; then
-            # Extract lines between ## Summary and the next ## heading (or end)
-            BULLETS=$(echo "$PR_BODY" | sed -n '/^## Summary/,/^## /p' | grep '^\s*[-*]' | head -20)
-          fi
+          # Generate changelog bullets from commit messages in the PR
+          BULLETS=$(gh pr view "$PR_NUMBER" --json commits --jq '.commits[].messageHeadline' | grep -v '^chore:' | grep -v '^\[create-pull-request\]' | sed 's/^/- /')
 
           if [ -z "$BULLETS" ]; then
-            BULLETS="- $PR_TITLE"
+            BULLETS="- ${{ github.event.pull_request.title }}"
           fi
 
           # Build the new changelog entry
