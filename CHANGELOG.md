@@ -1,4 +1,14 @@
 # Changelog
+
+## [1.2.0] - 2026-03-04
+- contextualize: adapt synced skills for this plugin
+- refactor: consolidate skills, remove redundant commands, add cli/mcp/…
+- contextualize: adapt synced skills for this plugin
+- fix: repair broken triple-quoted strings in assistant scripts
+- fix: quickstart prereq uses MCP list-indexes instead of echo, add mis…
+- refactor: rename skill directories to remove pinecone- prefix
+- fix: improve release and contextualize workflows
+- fix: generate changelog from commit messages instead of PR body
 ## [1.1.2] - 2026-01-27
 ### Fixed
 
