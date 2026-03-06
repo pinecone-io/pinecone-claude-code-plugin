@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.3.0] - 2026-03-06
+- source tag fixes
+
 ## [1.2.0] - 2026-03-04
 - contextualize: adapt synced skills for this plugin
 - refactor: consolidate skills, remove redundant commands, add cli/mcp/…
