@@ -56,3 +56,21 @@ allowed-tools: Skill(pinecone:assistant *), Bash, Read
 You can safely assume the Pinecone MCP will be installed if a user installs the Claude Code Plugin. Check the .mcp.json file if in doubt.
 
 ---
+
+## Source Tags
+
+All Python scripts that create a `Pinecone()` client must include a `source_tag` to attribute usage to this plugin. See [Pinecone docs on source tags](https://docs.pinecone.io/integrations/build-integration/attribute-usage-to-your-integration).
+
+Use the format: `claude_code_plugin:<skill>` or `claude_code_plugin:<skill>_<operation>` — add the operation suffix when it helps distinguish scripts within the same skill.
+
+Only lowercase letters, numbers, underscores, and colons are allowed — no spaces, hyphens, or uppercase.
+
+Examples:
+```python
+pc = Pinecone(api_key=api_key, source_tag="claude_code_plugin:assistant")
+pc = Pinecone(api_key=api_key, source_tag="claude_code_plugin:quickstart_upsert")
+```
+
+The base skills repo may use generic source tags like `pinecone_skills:*`. When adapting for Claude Code, replace these with the `claude_code_plugin:` prefix.
+
+---
