@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/pinecone-io-pinecone-claude-code-plugin-badge.png)](https://mseep.ai/app/pinecone-io-pinecone-claude-code-plugin)
+
 # Pinecone Plugin for Claude Code
 
 A lightweight plugin that integrates [Pinecone](https://www.pinecone.io/) vector database capabilities directly into Claude Code, enabling semantic search, index management, and RAG (Retrieval Augmented Generation) workflows.
