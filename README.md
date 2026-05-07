@@ -109,6 +109,14 @@ Query integrated indexes using natural language. Wraps the Pinecone MCP server f
 
 > **Note:** Only works with integrated indexes that use Pinecone's hosted embedding models.
 
+### `/pinecone:full-text-search`
+
+End-to-end workflow for Pinecone's full-text-search (FTS) preview API (`2026-01.alpha`) — design a document schema, ingest a corpus, and construct `documents.search(...)` calls. Covers BM25 (`text` / `query_string`), `dense_vector` and `sparse_vector` scoring, and text-match filters (`$match_phrase` / `$match_all` / `$match_any`) for hybrid lexical+semantic queries.
+
+Ships a `scripts/ingest.py` helper that does bulk `batch_upsert` with per-batch error inspection and post-upsert readiness polling — the three things bare-LLM ingest code reliably skips.
+
+> **Requires `pinecone` Python SDK ≥ 9.0.** The FTS document-schema API lives under `pinecone.preview`.
+
 ### `/pinecone:assistant`
 
 All-in-one skill for Pinecone Assistants — create, upload, sync, chat, context retrieval, and list. Works with both slash commands and natural language:
