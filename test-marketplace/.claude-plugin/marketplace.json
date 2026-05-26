@@ -1,0 +1,16 @@
+{
+  "name": "pinecone-plugins",
+  "owner": {
+    "name": "Pinecone"
+  },
+  "plugins": [
+    {
+      "name": "pinecone",
+      "source": {
+        "source": "github",
+        "repo": "pinecone-io/pinecone-claude-code-plugin",
+        "ref": "sync/skills-26185821386"
+      }
+    }
+  ]
+}
