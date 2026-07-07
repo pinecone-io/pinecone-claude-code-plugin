@@ -16,15 +16,16 @@ jobs:
 
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0
 
       - name: Determine bump type
         id: bump
+        env:
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
         run: |
-          LABELS='${{ toJSON(github.event.pull_request.labels.*.name) }}'
           if echo "$LABELS" | grep -q 'bump:major'; then
             echo "type=major" >> $GITHUB_OUTPUT
           elif echo "$LABELS" | grep -q 'bump:minor'; then
@@ -57,6 +58,7 @@ jobs:
         env:
           NEW_VERSION: ${{ steps.version.outputs.new_version }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
           GH_TOKEN: ${{ github.token }}
         run: |
           DATE=$(date +%Y-%m-%d)
@@ -66,7 +68,7 @@ jobs:
           BULLETS=$(gh pr view "$PR_NUMBER" --json commits --jq '.commits[].messageHeadline' | grep -v '^chore:' | grep -v '^\[create-pull-request\]' | sed 's/^/- /')
 
           if [ -z "$BULLETS" ]; then
-            BULLETS="- ${{ github.event.pull_request.title }}"
+            BULLETS="- $PR_TITLE"
           fi
 
           # Build the new changelog entry
