@@ -89,9 +89,9 @@ case "$key_state" in
     SYSTEM_MSG="✅ Pinecone: your API key is active and ready."
     ;;
   missing)
-    CONTEXT+=" PINECONE_API_KEY is not set. The Pinecone MCP and SDK cannot work without it. Proactively tell the user and guide them to authenticate before any Pinecone operation.
+    CONTEXT+=" PINECONE_API_KEY is not set. The Pinecone MCP and SDK cannot work without it. Proactively tell the user and guide them to authenticate before any Pinecone operation — the pinecone:quickstart skill walks them through setup end to end.
 ${API_KEY_HELP}"
-    SYSTEM_MSG="🔑 Pinecone: no API key found. Ask me to help you get set up — I'll walk you through it."
+    SYSTEM_MSG="🔑 Pinecone plugin is installed but no API key is available. Get a free API key here: https://app.pinecone.io/?sessionType=signup and use the pinecone:quickstart skill to get started."
     ;;
   invalid)
     CONTEXT+=" PINECONE_API_KEY is set but the Pinecone API rejected it (401/403) — it is invalid, expired, or revoked. Tell the user and guide them to replace it with a working key.
@@ -111,10 +111,11 @@ Pinecone CLI:"
 
 if [ "$cli_installed" = "yes" ]; then
   CONTEXT+=" \`pc\` is installed. No action needed unless the user hits a CLI auth error, in which case suggest \`pc auth status\` / \`pc login\`."
+  SYSTEM_MSG+=" Pinecone CLI (pc): installed."
 else
   CONTEXT+=" \`pc\` is not installed. The CLI is optional — mention it only if the user needs functionality the MCP does not cover (non-integrated indexes, batch vector ops, backups).
 ${CLI_HELP}"
-  SYSTEM_MSG+=" (Pinecone CLI \`pc\` not installed — optional.)"
+  SYSTEM_MSG+=" Pinecone CLI (pc): not installed (optional)."
 fi
 
 # --- Emit JSON ---------------------------------------------------------------
