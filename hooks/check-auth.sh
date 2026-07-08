@@ -110,8 +110,8 @@ CONTEXT+="
 Pinecone CLI:"
 
 if [ "$cli_installed" = "yes" ]; then
-  CONTEXT+=" \`pc\` is installed. No action needed unless the user hits a CLI auth error, in which case suggest \`pc auth status\` / \`pc login\`."
-  SYSTEM_MSG+=" Pinecone CLI (pc): installed."
+  CONTEXT+=" \`pc\` is installed. For terminal-based Pinecone work (all index types, batch operations, backups, namespaces, CI/CD), use the pinecone:cli skill to drive it. If the user hits a CLI auth error, suggest \`pc auth status\` / \`pc login\`."
+  SYSTEM_MSG+=" Pinecone CLI installed — use the pinecone:cli skill to have Claude use it."
 else
   CONTEXT+=" \`pc\` is not installed. The CLI is optional — mention it only if the user needs functionality the MCP does not cover (non-integrated indexes, batch vector ops, backups).
 ${CLI_HELP}"
