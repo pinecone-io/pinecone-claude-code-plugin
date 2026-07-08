@@ -5,15 +5,7 @@
 # Does the cheap, safe, shell-side checks only:
 #   1. Is PINECONE_API_KEY present in the environment?
 #   2. Is the Pinecone CLI (`pc`) installed?
-#
-# It deliberately makes NO network call and never handles the key's value. The
-# real liveness check — is the key actually active? — is delegated to the MCP
-# `list-indexes` tool, which Claude runs on first Pinecone use (see the
-# additionalContext below). mcp_tool hooks can't run at SessionStart (no MCP
-# client context yet), and a shell hook shouldn't touch the secret just to
-# preview that verdict a few seconds early. The key never leaves the shell:
-# it is only tested for presence with `[ -n ... ]`.
-#
+
 # Output contract: print a single JSON object to stdout with `systemMessage`
 # (shown to the user) and `hookSpecificOutput.additionalContext` (injected into
 # Claude's context). SessionStart hooks only add context; they cannot block.
@@ -69,12 +61,12 @@ case "$key_state" in
   present)
     CONTEXT+=" PINECONE_API_KEY is set, but presence does not prove it is active. On the user's first Pinecone-related request, silently verify it by calling the MCP tool mcp__pinecone__list-indexes. If that succeeds, proceed without comment. If it fails with an authentication error (e.g. 401/403), the key is invalid, expired, or revoked — tell the user and guide them to replace it.
 ${API_KEY_HELP}"
-    SYSTEM_MSG="✅ Pinecone API key detected — I'll confirm it's live when you first use Pinecone."
+    SYSTEM_MSG="✅ Pinecone plugin active — API key detected; I'll confirm it's live when you first use Pinecone."
     ;;
   missing)
     CONTEXT+=" PINECONE_API_KEY is not set. The Pinecone MCP and SDK cannot work without it. Proactively tell the user and guide them to authenticate before any Pinecone operation — the pinecone:quickstart skill walks them through setup end to end.
 ${API_KEY_HELP}"
-    SYSTEM_MSG="🔑 Pinecone plugin is installed but no API key is available. Get a free API key here: https://app.pinecone.io/?sessionType=signup and use the pinecone:quickstart skill to get started."
+    SYSTEM_MSG="🔑 Pinecone plugin active, but no API key is available. Get a free API key here: https://app.pinecone.io/?sessionType=signup and use the pinecone:quickstart skill to get started."
     ;;
 esac
 
@@ -90,6 +82,12 @@ else
 ${CLI_HELP}"
   SYSTEM_MSG+=" Pinecone CLI (pc): not installed (optional)."
 fi
+
+CONTEXT+="
+
+To disable this check: the user can run \`export PINECONE_SKIP_AUTH_CHECK=1\` in their shell (persists across sessions and survives plugin updates). Tell them this if they ask how to turn off or silence the Pinecone session-start message."
+
+SYSTEM_MSG+=" (To silence this, set PINECONE_SKIP_AUTH_CHECK=1, or ask Claude how.)"
 
 # --- Emit JSON ---------------------------------------------------------------
 #
