@@ -2,56 +2,38 @@
 #
 # SessionStart hook for the Pinecone Claude Code plugin.
 #
-# Confirms the user is set up to talk to Pinecone and, if not, hands Claude the
-# guidance it needs to walk them through authentication.
+# Does the cheap, safe, shell-side checks only:
+#   1. Is PINECONE_API_KEY present in the environment?
+#   2. Is the Pinecone CLI (`pc`) installed?
 #
-# Why this is a `command` hook and not an `mcp_tool` hook: SessionStart runs
-# before the MCP client exists, so `mcp_tool` hooks are hard-rejected there
-# ("no MCP client context"). A shell subprocess likewise has no handle to the
-# MCP client. So we validate the key against the same endpoint the MCP
-# `list-indexes` tool wraps — the REST control-plane `GET /indexes` — directly.
+# It deliberately makes NO network call and never handles the key's value. The
+# real liveness check — is the key actually active? — is delegated to the MCP
+# `list-indexes` tool, which Claude runs on first Pinecone use (see the
+# additionalContext below). mcp_tool hooks can't run at SessionStart (no MCP
+# client context yet), and a shell hook shouldn't touch the secret just to
+# preview that verdict a few seconds early. The key never leaves the shell:
+# it is only tested for presence with `[ -n ... ]`.
 #
-# Checks performed:
-#   1. Is PINECONE_API_KEY set?
-#   2. If so, is it *active*? (presence != valid) — verified via GET /indexes.
-#   3. Is the Pinecone CLI (`pc`) installed?
-#
-# Output contract: print a single JSON object with a `hookSpecificOutput`
-# wrapper to stdout. SessionStart hooks only add context; they cannot block.
-#
-# Security: the API key is passed to curl through a --config block on stdin, so
-# it never appears in argv (i.e. never visible via `ps`). It is never written
-# to disk and never included in the emitted context.
+# Output contract: print a single JSON object to stdout with `systemMessage`
+# (shown to the user) and `hookSpecificOutput.additionalContext` (injected into
+# Claude's context). SessionStart hooks only add context; they cannot block.
 
 set -uo pipefail
 
-API_VERSION="2025-04"
-
-# --- 1 & 2: API key presence and validity -----------------------------------
-
-# key_state is one of: missing | active | invalid | unverified
-if [ -z "${PINECONE_API_KEY:-}" ]; then
-  key_state="missing"
-elif ! command -v curl >/dev/null 2>&1; then
-  # Can't validate without curl; presence is all we know.
-  key_state="unverified"
-else
-  # Pass the key via a --config block on stdin so it stays out of argv.
-  # printf is a shell builtin, so the key never becomes a process argument.
-  http_code="$(
-    printf 'header = "Api-Key: %s"\nheader = "X-Pinecone-API-Version: %s"\nurl = "https://api.pinecone.io/indexes"\n' \
-      "$PINECONE_API_KEY" "$API_VERSION" \
-      | curl -sS --max-time 5 -o /dev/null -w '%{http_code}' --config - 2>/dev/null
-  )" || http_code="000"
-
-  case "$http_code" in
-    2*)        key_state="active" ;;
-    401 | 403) key_state="invalid" ;;
-    *)         key_state="unverified" ;;  # network error, timeout, etc.
-  esac
+# Opt-out: users can silence this hook with `export PINECONE_SKIP_AUTH_CHECK=1`.
+# This survives plugin updates (unlike editing the installed hook file).
+if [ -n "${PINECONE_SKIP_AUTH_CHECK:-}" ]; then
+  exit 0
 fi
 
-# --- 3: CLI presence ---------------------------------------------------------
+# --- Deterministic checks ----------------------------------------------------
+
+# key_state is one of: present | missing. We do NOT judge validity here.
+if [ -n "${PINECONE_API_KEY:-}" ]; then
+  key_state="present"
+else
+  key_state="missing"
+fi
 
 if command -v pc >/dev/null 2>&1; then
   cli_installed="yes"
@@ -61,13 +43,13 @@ fi
 
 # --- Reusable guidance snippets ---------------------------------------------
 
-read -r -d '' API_KEY_HELP <<'EOF'
+read -r -d '' API_KEY_HELP <<'EOF' || true
 Create an API key in the Pinecone console (https://app.pinecone.io/?sessionType=signup), then have the user export it in their own terminal:
     export PINECONE_API_KEY="your-key"
 Claude Code inherits the shell environment, so that export is sufficient. Claude cannot set this for the user — they must run it themselves, then restart the session so the MCP server picks it up.
 EOF
 
-read -r -d '' CLI_HELP <<'EOF'
+read -r -d '' CLI_HELP <<'EOF' || true
 Install the Pinecone CLI (optional — enables terminal management of all index types, batch ops, and backups):
     brew tap pinecone-io/tap && brew install pinecone-io/tap/pinecone
 Then run `pc login` directly in a terminal (not inside an agent loop — the browser auth link may not surface in-agent). Note: `pc login` authenticates the CLI only; it does not set PINECONE_API_KEY.
@@ -76,7 +58,7 @@ EOF
 # --- Assemble the context ----------------------------------------------------
 
 CONTEXT="[Pinecone plugin — auth check]
-Session-start status: API key = ${key_state}; Pinecone CLI (pc) installed = ${cli_installed}.
+Session-start status: PINECONE_API_KEY present = ${key_state}; Pinecone CLI (pc) installed = ${cli_installed}.
 
 Act on this ONLY as described below. Do NOT announce a healthy check to the user — stay silent when everything is fine.
 
@@ -84,24 +66,15 @@ API key:"
 
 # SYSTEM_MSG is a short, friendly one-liner shown directly to the user.
 case "$key_state" in
-  active)
-    CONTEXT+=" Valid and active — no action needed. Proceed with Pinecone work normally."
-    SYSTEM_MSG="✅ Pinecone API is here and enabled. Ask Claude to list your indexes, query, or get started with Pinecone."
+  present)
+    CONTEXT+=" PINECONE_API_KEY is set, but presence does not prove it is active. On the user's first Pinecone-related request, silently verify it by calling the MCP tool mcp__pinecone__list-indexes. If that succeeds, proceed without comment. If it fails with an authentication error (e.g. 401/403), the key is invalid, expired, or revoked — tell the user and guide them to replace it.
+${API_KEY_HELP}"
+    SYSTEM_MSG="✅ Pinecone API key detected — I'll confirm it's live when you first use Pinecone."
     ;;
   missing)
     CONTEXT+=" PINECONE_API_KEY is not set. The Pinecone MCP and SDK cannot work without it. Proactively tell the user and guide them to authenticate before any Pinecone operation — the pinecone:quickstart skill walks them through setup end to end.
 ${API_KEY_HELP}"
     SYSTEM_MSG="🔑 Pinecone plugin is installed but no API key is available. Get a free API key here: https://app.pinecone.io/?sessionType=signup and use the pinecone:quickstart skill to get started."
-    ;;
-  invalid)
-    CONTEXT+=" PINECONE_API_KEY is set but the Pinecone API rejected it (401/403) — it is invalid, expired, or revoked. Tell the user and guide them to replace it with a working key.
-${API_KEY_HELP}"
-    SYSTEM_MSG="⚠️ Pinecone: your API key was rejected (invalid or expired). Ask me and I'll help you fix it."
-    ;;
-  unverified)
-    CONTEXT+=" PINECONE_API_KEY is set but its validity could not be confirmed from this hook (curl missing or a network/timeout error — NOT necessarily an auth failure). Do not alarm the user. If a Pinecone request later fails auth, verify with the MCP tool mcp__pinecone__list-indexes and, if that also fails, guide re-authentication.
-${API_KEY_HELP}"
-    SYSTEM_MSG="ℹ️ Pinecone: API key found, but I couldn't verify it just now (network). I'll double-check when you use Pinecone."
     ;;
 esac
 
@@ -119,12 +92,26 @@ ${CLI_HELP}"
 fi
 
 # --- Emit JSON ---------------------------------------------------------------
+#
+# All values here are plugin-controlled strings (no secret, no free-form user
+# input), but they contain quotes and newlines, so they must be escaped. Prefer
+# jq, then python3; fall back to a pure-bash escaper so output is always valid
+# JSON even when neither is installed.
+
+json_escape() {
+  local s=$1
+  s=${s//\\/\\\\}      # backslash first
+  s=${s//\"/\\\"}      # double quotes
+  s=${s//$'\n'/\\n}    # newlines
+  s=${s//$'\t'/\\t}    # tabs
+  s=${s//$'\r'/\\r}    # carriage returns
+  printf '%s' "$s"
+}
 
 if command -v jq >/dev/null 2>&1; then
   jq -n --arg ctx "$CONTEXT" --arg msg "$SYSTEM_MSG" \
     '{systemMessage: $msg, hookSpecificOutput: {hookEventName: "SessionStart", additionalContext: $ctx}}'
-else
-  # jq is not guaranteed; fall back to python3 for safe JSON string escaping.
+elif command -v python3 >/dev/null 2>&1; then
   CONTEXT="$CONTEXT" SYSTEM_MSG="$SYSTEM_MSG" python3 -c '
 import json, os
 print(json.dumps({
@@ -134,4 +121,7 @@ print(json.dumps({
         "additionalContext": os.environ["CONTEXT"],
     }
 }))'
+else
+  printf '{"systemMessage":"%s","hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"%s"}}\n' \
+    "$(json_escape "$SYSTEM_MSG")" "$(json_escape "$CONTEXT")"
 fi

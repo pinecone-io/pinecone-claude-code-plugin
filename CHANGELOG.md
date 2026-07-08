@@ -2,11 +2,11 @@
 
 ## [1.5.0] - 2026-07-08
 ### Added
-- **SessionStart auth-check hook**: On session start (and resume), the plugin now verifies your Pinecone setup and guides you through authentication if anything is missing.
-  - Confirms `PINECONE_API_KEY` is set **and active** by validating it against the Pinecone control-plane `GET /indexes` endpoint (the same operation the MCP `list-indexes` tool wraps). Distinguishes a missing key from a present-but-invalid/expired one.
-  - Detects whether the Pinecone CLI (`pc`) is installed and surfaces install/login guidance when relevant.
-  - Stays silent when everything is healthy; only prompts guidance when action is needed.
-  - The API key is passed to `curl` via a stdin `--config` block, so it never appears in process arguments, on disk, or in the injected context.
+- **SessionStart auth-check hook**: On session start (and resume), the plugin checks your Pinecone setup and guides you through authentication if anything is missing.
+  - Checks whether `PINECONE_API_KEY` is present and whether the Pinecone CLI (`pc`) is installed. 
+  - Shows a friendly one-line status via `systemMessage`; hands Claude detailed next steps via `additionalContext`, including verifying the key is actually live via the MCP `list-indexes` tool on first Pinecone use, and pointing you at the `pinecone:quickstart` and `pinecone:cli` skills.
+  - Stays quiet-but-visible when healthy; only prompts guidance when action is needed.
+  - Silence it anytime with `export PINECONE_SKIP_AUTH_CHECK=1` (survives plugin updates).
 
 ## [1.4.1] - 2026-06-06
 - Version bump and plugin metadata/keyword updates.
