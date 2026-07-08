@@ -1,0 +1,28 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/check-auth.sh",
+            "timeout": 15,
+            "statusMessage": "Checking Pinecone authentication..."
+          }
+        ]
+      },
+      {
+        "matcher": "resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/check-auth.sh",
+            "timeout": 15,
+            "statusMessage": "Checking Pinecone authentication..."
+          }
+        ]
+      }
+    ]
+  }
+}

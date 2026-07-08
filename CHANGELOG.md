@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.0] - 2026-07-08
+### Added
+- **SessionStart auth-check hook**: On session start (and resume), the plugin now verifies your Pinecone setup and guides you through authentication if anything is missing.
+  - Confirms `PINECONE_API_KEY` is set **and active** by validating it against the Pinecone control-plane `GET /indexes` endpoint (the same operation the MCP `list-indexes` tool wraps). Distinguishes a missing key from a present-but-invalid/expired one.
+  - Detects whether the Pinecone CLI (`pc`) is installed and surfaces install/login guidance when relevant.
+  - Stays silent when everything is healthy; only prompts guidance when action is needed.
+  - The API key is passed to `curl` via a stdin `--config` block, so it never appears in process arguments, on disk, or in the injected context.
+
+## [1.4.1] - 2026-06-06
+- Version bump and plugin metadata/keyword updates.
+
+## [1.4.0] - 2026-06-06
+- **New skill — full-text-search (FTS)**: end-to-end workflow for Pinecone's full-text-search preview API (`2026-01.alpha`) — document schema design, safe bulk ingestion, and `documents.search(...)` query construction (BM25 `text`/`query_string`, `dense_vector`/`sparse_vector` scoring, and `$match_phrase`/`$match_all`/`$match_any` text-match filters).
+- Updates across the rest of the plugin to accompany the new skill.
+
 ## [1.3.0] - 2026-03-06
 - source tag fixes
 
