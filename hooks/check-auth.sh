@@ -86,7 +86,7 @@ API key:"
 case "$key_state" in
   active)
     CONTEXT+=" Valid and active — no action needed. Proceed with Pinecone work normally."
-    SYSTEM_MSG="✅ Pinecone: your API key is active and ready."
+    SYSTEM_MSG="✅ Pinecone API is here and enabled. Ask Claude to list your indexes, query, or get started with Pinecone."
     ;;
   missing)
     CONTEXT+=" PINECONE_API_KEY is not set. The Pinecone MCP and SDK cannot work without it. Proactively tell the user and guide them to authenticate before any Pinecone operation — the pinecone:quickstart skill walks them through setup end to end.
