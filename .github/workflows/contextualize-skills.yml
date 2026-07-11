@@ -32,7 +32,7 @@ jobs:
 
       - name: Run Claude Code
         if: steps.check_author.outputs.skip != 'true'
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@71d3414a2ac47c29d9b7d0da6ca01963a9a6e5fc # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ github.token }}
