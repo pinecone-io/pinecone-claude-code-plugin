@@ -6,7 +6,7 @@ allowed-tools: Bash, Read
 
 # Pinecone Full-Text Search
 
-> **Requires `pinecone` Python SDK ≥ 9.0** (`pip install pinecone>=9.0`). The FTS document-schema API lives under `pinecone.preview` and is incomplete or absent in earlier SDK builds. The packaged helper scripts pin `pinecone==9.0.0` via PEP 723 inline metadata; if you're writing your own code against this skill, pin v9 explicitly. The wire API version is `2026-01.alpha`.
+> **Requires `pinecone` Python SDK ≥ 9.0** (`pip install pinecone>=9.0`). The FTS document-schema API lives under `pinecone.preview` and is incomplete or absent in earlier SDK builds. The packaged helper scripts pin `pinecone==9.1.0` via PEP 723 inline metadata; if you're writing your own code against this skill, pin v9 explicitly. The wire API version is `2026-01.alpha`.
 
 > **Authoritative reference (last resort).** If you hit a question this skill and its `references/*.md` files don't answer, the official Pinecone FTS docs are at <https://docs.pinecone.io/guides/search/full-text-search>. Prefer this skill's content for anything covered here — the docs may describe surfaces (e.g. classic vector API) that don't apply to the document-schema FTS path. Consult the link only when you're genuinely stuck.
 
