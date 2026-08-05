@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.5.1] - 2026-08-05
+### Fixed
+- **Pinecone SDK 9.1.0 compatibility.** The bundled scripts pinned `pinecone>=8.0.0`, which now resolves to 9.1.0 — where the assistant API moved and the data plane became keyword-only. Five of nine scripts were broken; `chat.py` failed at import.
+  - Assistant: `chat.py` imports the chat `Message` type from its new location; `chat`, `context`, `upload`, `sync`, and `list` use the current assistant API (`pc.assistant.Assistant(...)` was removed in v9); `context.py` reports the real snippet type instead of always `"text"`.
+  - Quickstart: `upsert_records` arguments are passed by keyword as v9 requires, and search results read `id` / `score` to match the current response fields.
+- **`list` display.** Assistant and file status values are colour-coded again — the API returns `Ready` / `Available` and the comparison was lowercase. Removed the `Region` column, which always showed `unknown` because the API does not return a region on that response.
+
+### Changed
+- All scripts pin `pinecone==9.1.0` and declare `requires-python = ">=3.10"`. The previous floating pin is why these broke with no change in this repo.
+
 ## [1.5.0] - 2026-07-08
 ### Added
 - **SessionStart auth-check hook**: On session start (and resume), the plugin checks your Pinecone setup and guides you through authentication if anything is missing.
