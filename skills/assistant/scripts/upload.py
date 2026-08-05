@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # /// script
+# requires-python = ">=3.10"
 # dependencies = [
-#   "pinecone>=8.0.0",
+#   "pinecone==9.1.0",
 #   "typer>=0.15.0",
 #   "rich>=13.0.0",
 # ]
@@ -127,7 +128,6 @@ def main(
     try:
         # Initialize Pinecone client
         pc = Pinecone(api_key=api_key, source_tag="claude_code_plugin:assistant")
-        asst = pc.assistant.Assistant(assistant_name=assistant)
 
         # Find files to upload
         console.print(f"\n[bold]Scanning for documentation files in:[/bold] {source}")
@@ -173,7 +173,8 @@ def main(
                     }
 
                     # Upload file
-                    asst.upload_file(
+                    pc.assistants.upload_file(
+                        assistant_name=assistant,
                         file_path=str(file_path),
                         metadata=metadata,
                         timeout=None,

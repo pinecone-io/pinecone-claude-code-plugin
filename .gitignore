@@ -8,3 +8,7 @@ test-setup.py
 test.sh
 *-test-results.md
 instructions-for-workflow.md
+# Local secrets — never commit
+.env
+.env.*
+!.env.example
