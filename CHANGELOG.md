@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.6.0] - 2026-08-11
+
+### Added
+- **Three missing assistant reference files.** `references/context.md`, `references/list.md`, and `references/sync.md`. The `context`, `list`, and `sync` operations were listed in the assistant skill but had no reference documentation, so the agent had nothing to read before running them.
+- The n8n skill now states how to invoke it: `/pinecone:n8n`.
+
+### Fixed
+- **Full-text search: `add_integer_field()` does not exist.** The FTS skill named it in eight places across `SKILL.md`, `references/schema-design.md`, and `references/onboarding-walkthrough.md`. Calling it raises `AttributeError`, so an agent following the documented schema-design path failed before it could create an index. Use `add_float_field()` — `float` is the only numeric wire type.
+- **`add_boolean_field()` does exist.** The docs said it didn't and recommended an `add_custom_field("name", {"type": "boolean", ...})` workaround.
+- **`include_fields` default was wrong.** Omitting it does not return `_id` + `_score` only. The key is left off the request and the server returns every stored field.
+
+### Changed
+- API key guidance now covers `.env` files alongside shell export, in the help, query, quickstart, and assistant skills.
+- Skills state once, up front, that `AskUserQuestion` is the way to offer choices, instead of naming it at each individual step.
+- `source_tag` operation names changed on two quickstart scripts: `quickstart_complete` → `index_quickstart`, and `quickstart_upsert` → `upsert`. If you filter analytics on those exact strings, update them.
+- `chat.py` and `ingest.py` are no longer marked executable. Both are invoked with `uv run`, so this does not affect how they are used.
+
+### Note for contributors
+Everything under `skills/` is now generated from [pinecone-io/skills](https://github.com/pinecone-io/skills) and arrives by pull request. Edits made directly here are overwritten by the next sync — send changes to the source repository instead.
+
 ## [1.5.1] - 2026-08-05
 ### Fixed
 - **Pinecone SDK 9.1.0 compatibility.** The bundled scripts pinned `pinecone>=8.0.0`, which now resolves to 9.1.0 — where the assistant API moved and the data plane became keyword-only. Five of nine scripts were broken; `chat.py` failed at import.
