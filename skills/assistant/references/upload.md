@@ -15,14 +15,14 @@ Upload files or directory contents to a Pinecone Assistant.
 
 ## Workflow
 
-1. Parse arguments. If missing, list assistants and use AskUserQuestion for selection.
+1. Parse arguments. If missing, list assistants and prompt for selection.
 2. Use Glob to preview files. Show count and types.
 3. **If code files detected:** Warn user and automatically filter them out:
    ```
    ⚠️ Found 50 Python files. Assistant works with documents only — I'll skip the code files.
    Found 25 Markdown and 8 PDF files to upload instead.
    ```
-4. Use AskUserQuestion to confirm with the user before proceeding.
+4. Confirm with the user before proceeding.
 5. Execute:
    ```bash
    uv run scripts/upload.py \

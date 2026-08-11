@@ -85,7 +85,7 @@ If any field starts with `_` or `$`:
 >     # Filter only — exact-match category like "fiction"
 >     .add_string_field("category", filterable=True)
 >     # Numeric range filter (e.g. year > 2024)
->     .add_integer_field("year", filterable=True)
+>     .add_float_field("year", filterable=True)
 >     # Tag filter — list membership ($in)
 >     .add_string_list_field("tags", filterable=True)
 >     .build()
@@ -93,7 +93,7 @@ If any field starts with `_` or `$`:
 >
 > A few notes:
 > - **No dense_vector field** — you said you don't have embeddings yet. We can add one later, but it requires creating a *new* index because schemas are immutable. Want to add a placeholder now and keep the door open?
-> - **`year` uses `add_integer_field`** but Pinecone stores it as `float` on the wire. The naming is confusing but normal — there's no separate integer type.
+> - **`year` uses `add_float_field`** — `float` is the only numeric wire type; there is no integer helper.
 > - **`tags`** will become `["a","b","c"]` after the comma-split we discussed.
 >
 > Schemas are immutable in `2026-01.alpha` — once we create this, changing it means re-creating the index and re-ingesting all the data.

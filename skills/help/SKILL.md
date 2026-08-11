@@ -10,17 +10,19 @@ Pinecone is the leading vector database for building accurate and performant AI 
 
 Here's everything you need to get started and a summary of all available skills.
 
+Invoke any skill from chat with `/pinecone:<skill-name>` — for example `/pinecone:quickstart` or `/pinecone:n8n`.
+
 ---
 
 ## What You Need
 
 ### Required
 - **Pinecone account** — free to create at https://app.pinecone.io/?sessionType=signup
-- **API key** — create one in the Pinecone console after signing up, then export it in your terminal:
-  ```bash
-  export PINECONE_API_KEY="your-key"
-  ```
-  Note: Claude Code inherits your shell environment, so the export above is sufficient.
+- **API key** — create one in the Pinecone console after signing up, then make it
+  available to this environment:
+  - Run `export PINECONE_API_KEY="your-key"` in your terminal. Claude Code reads
+  your shell environment, so this is enough.
+- To use a `.env` file instead, run scripts with `uv run --env-file .env scripts/...`.
 
 ### Optional (unlock more capabilities)
 

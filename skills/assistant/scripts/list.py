@@ -61,7 +61,7 @@ def main(
             else:
                 console.print("[yellow]No assistants found.[/yellow]\n")
                 console.print("Create your first assistant with:")
-                console.print("  [cyan]/pinecone:assistant[/cyan] — \"create a new assistant called [name]\"")
+                console.print("  [cyan]/pinecone:assistant[/cyan] — create a new assistant called [name]")
             return
 
         if json_output:
@@ -195,10 +195,10 @@ def main(
 
             # Next steps panel
             next_steps = """[bold]Next steps:[/bold]
-\u2022 List with files: [cyan]/pinecone:assistant[/cyan] \u2014 list my assistants with their files
-\u2022 Chat: [cyan]/pinecone:assistant[/cyan] \u2014 ask [name] about [your question]
-\u2022 Upload: [cyan]/pinecone:assistant[/cyan] \u2014 upload files from [path] to [name]
-\u2022 Context: [cyan]/pinecone:assistant[/cyan] \u2014 search [name] for context about [topic]"""
+• List with files: [cyan]/pinecone:assistant[/cyan] — list my assistants with their files
+• Chat: [cyan]/pinecone:assistant[/cyan] — ask [name] about [your question]
+• Upload: [cyan]/pinecone:assistant[/cyan] — upload files from [path] to [name]
+• Context: [cyan]/pinecone:assistant[/cyan] — search [name] for context about [topic]"""
 
             console.print(Panel(next_steps, title="Available Commands", border_style="blue"))
 
