@@ -12,7 +12,7 @@ schema = (
     .add_string_field("title", full_text_search={"language": "en"})
     .add_string_field("body",  full_text_search={"language": "en", "stemming": True})
     .add_string_field("category", filterable=True)
-    .add_integer_field("year", filterable=True)              # emits `"type": "float"` on the wire
+    .add_float_field("year", filterable=True)                # `float` is the only numeric wire type
     .add_dense_vector_field("embedding",       dimension=1024, metric="cosine")
     .add_sparse_vector_field("sparse_embedding", metric="dotproduct")
     .build()            # terminal: returns the schema object you pass to indexes.create
@@ -81,18 +81,18 @@ Stored verbatim, not tokenized, not text-scored. Enables exact-match filtering: 
 ## Numeric, boolean, and array metadata
 
 ```python
-.add_integer_field("year", filterable=True)                              # wire type: "float"
-.add_custom_field("featured", {"type": "boolean", "filterable": True})  # no add_boolean_field helper in v9
+.add_float_field("year", filterable=True)      # `float` is the only numeric wire type
+.add_boolean_field("featured", filterable=True)
 .add_string_list_field("tags", filterable=True)
 ```
 
-- **`float`** is the only numeric wire type — there is no separate integer type. The SchemaBuilder helper is misleadingly named `add_integer_field` but emits `{"type": "float", "filterable": ...}`. Supports `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$nin`, `$exists`.
-- **`boolean`** has no dedicated builder helper in pinecone v9 — declare via `add_custom_field("name", {"type": "boolean", "filterable": True})`. Supports `$eq` and `$exists`.
+- **`float`** is the only numeric wire type — there is no separate integer type, and **there is no `add_integer_field` helper**. Use `add_float_field`, which emits `{"type": "float", "filterable": ...}`. Note `describe()` may still report the field class as `PreviewIntegerField`. Supports `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$nin`, `$exists`.
+- **`boolean`** uses `add_boolean_field("name", filterable=True)`. Supports `$eq` and `$exists`.
 - **`string_list`** supports `$in` / `$nin` membership semantics — handy for tag-style metadata.
 
 All filter operators compose under `$and`, `$or`, `$not`. Multiple keys at the top level of `filter` are combined with implicit AND.
 
-> **SchemaBuilder helper-name pitfall** (pinecone v9): `add_integer_field()` produces `{"type": "float"}`, not a separate integer type. The class name in `describe()` responses is also `PreviewIntegerField`, but the wire/server type is `"float"`. Use `add_integer_field` for any numeric metadata; use `add_custom_field` with an explicit `{"type": "boolean", ...}` dict for booleans.
+> **SchemaBuilder numeric-type pitfall**: there is no `add_integer_field()` helper — calling it raises `AttributeError`. Use `add_float_field()` for any numeric metadata; `float` is the only numeric wire type. `describe()` responses may still name the class `PreviewIntegerField`, but the wire/server type is `"float"`.
 
 > **Forward-looking note.** In the public preview, metadata fields you send at upsert time are auto-indexed for filtering even if not declared in the schema. In a future release, only schema-declared fields with `filterable: true` will be indexed. Declare your metadata fields in the schema today to be future-proof.
 

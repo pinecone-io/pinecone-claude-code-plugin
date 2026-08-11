@@ -131,8 +131,8 @@ def main(
 
             # Suggest next action
             next_action = f"""[bold]Next steps:[/bold]
-\u2022 Ask a question: [cyan]/pinecone:assistant[/cyan] \u2014 "ask {assistant} about [your question]"
-\u2022 Upload more files: [cyan]/pinecone:assistant[/cyan] \u2014 "upload files from [path] to {assistant}\""""
+• Ask a question: [cyan]/pinecone:assistant[/cyan] — ask {assistant} about [your question]
+• Upload more files: [cyan]/pinecone:assistant[/cyan] — upload files from [path] to {assistant}"""
             console.print(Panel(next_action, title="What's Next?", border_style="green"))
 
     except AttributeError as e:
@@ -141,7 +141,7 @@ def main(
         console.print(f"[dim]Details: {e}[/dim]")
         console.print("\n[yellow]Note:[/yellow] Context API requires SDK version with assistant.context() support")
         console.print("\n[yellow]Try using chat instead:[/yellow]")
-        console.print(f"  /pinecone:assistant — \"ask {assistant} about \\\"{query}\\\"\"")
+        console.print(f"  /pinecone:assistant — ask {assistant} about \"{query}\"")
         raise typer.Exit(1)
     except Exception as e:
         console.print(f"[red]Error: {e}[/red]")

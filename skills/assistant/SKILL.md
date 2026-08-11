@@ -11,6 +11,8 @@ Pinecone Assistant is a fully managed RAG service. Upload documents, ask questio
 > All scripts are in `scripts/` relative to this skill directory.
 > Run with: `uv run scripts/script_name.py [arguments]`
 
+Whenever this skill asks the user to choose between options, confirm a destructive step, or pick from a list, use the AskUserQuestion tool rather than plain prose. Fall back to prose only if the tool is unavailable.
+
 ## Operations
 
 | What to do | Script | Key args |
@@ -56,7 +58,7 @@ Track the last assistant used within the conversation:
 - When a user creates or first uses an assistant, remember its name
 - If user says "my assistant", "it", or "the assistant" → use the last one
 - Briefly confirm which assistant you're using: "Asking docs-bot..."
-- If ambiguous and multiple exist → use AskUserQuestion to clarify
+- If ambiguous and multiple exist → ask the user to clarify
 
 ---
 
@@ -74,6 +76,9 @@ Handle chained requests naturally. Example:
 
 ## Prerequisites
 
-- `PINECONE_API_KEY` must be available — `export PINECONE_API_KEY="your-key"` (or use a `.env` file with `uv run --env-file .env`)
+- `PINECONE_API_KEY` must be available:
+- Run `export PINECONE_API_KEY="your-key"` in your terminal. Claude Code reads
+  your shell environment, so this is enough.
+- To use a `.env` file instead, run scripts with `uv run --env-file .env scripts/...`.
 - `uv` must be installed — [install uv](https://docs.astral.sh/uv/getting-started/installation/)
 - Get a free API key at: https://app.pinecone.io/?sessionType=signup

@@ -13,7 +13,7 @@ api_key = os.environ.get("PINECONE_API_KEY")
 if not api_key:
     raise ValueError("PINECONE_API_KEY environment variable not set")
 
-pc = Pinecone(api_key=api_key, source_tag="claude_code_plugin:quickstart_complete")
+pc = Pinecone(api_key=api_key, source_tag="claude_code_plugin:index_quickstart")
 
 # 1. Create a serverless index with an integrated embedding model
 index_name = "quickstart"

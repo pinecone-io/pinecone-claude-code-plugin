@@ -9,19 +9,21 @@ allowed-tools: Skill(pinecone:assistant *), Bash, Read
 Welcome! This skill walks you through your first Pinecone experience using the tools available to you. In this quickstart,
 you will learn how to do a simple form of semantic search over some example data.
 
+Whenever this skill asks the user to choose between options, confirm a destructive step, or pick from a list, use the AskUserQuestion tool rather than plain prose. Fall back to prose only if the tool is unavailable.
+
 ## Prerequisites
 
 Before starting either path, verify the API key works by calling `list-indexes` via the Pinecone MCP. If it succeeds, proceed. If it fails, ask the user to set their key:
 
-```bash
-export PINECONE_API_KEY="your-key"
-```
+- Run `export PINECONE_API_KEY="your-key"` in your terminal. Claude Code reads
+  your shell environment, so this is enough.
+- To use a `.env` file instead, run scripts with `uv run --env-file .env scripts/...`.
 
 Then retry `list-indexes` to confirm.
 
 ## Step 0: Choose Your Path
 
-Use AskUserQuestion to let the user choose their path:
+Ask the user which path they want:
 
 - **Database** – Build a vector search index. Best for developers who want to store and search embeddings. Uses the Pinecone MCP + a Python upsert script.
 - **Assistant** – Build a document Q&A assistant. Best for users who want to upload files and ask questions with cited answers. No code required.
@@ -70,10 +72,16 @@ Wait for the index to become ready before proceeding. Waiting a few seconds is s
 
 ### Step 3 – Upsert Sample Data
 
-Run the bundled upsert script to seed the index with sample records:
+Run the bundled upsert script to seed the index with sample records.
 
+If `PINECONE_API_KEY` is set in the environment:
 ```bash
 uv run scripts/upsert.py --index quickstart-skills
+```
+
+If using a `.env` file:
+```bash
+uv run --env-file .env scripts/upsert.py --index quickstart-skills
 ```
 
 **Explain to the user what's happening:**
@@ -102,7 +110,7 @@ Display the results in a clean table: ID, score, and `chunk_text`.
 - That's semantic search: it finds meaning, not just matching words
 - You sent plain text — Pinecone embedded the query using the same model as the index
 
-**Offer to explore further:** Use AskUserQuestion to ask if they'd like to try another query:
+**Offer to explore further:** Ask the user if they'd like to try another query to see the effect more clearly:
 - Option A: `"feeling under the weather"` — should surface the health records
 - Option B: `"wildlife spotting outside"` — should surface the nature records
 - Option C: No thanks, move on
@@ -113,7 +121,7 @@ If they decline or are done exploring, proceed to Step 5 or offer to skip ahead 
 
 ### Step 5 – Try Reranking (Optional)
 
-Use AskUserQuestion to ask if the user wants to try reranking.
+Ask the user if they want to try reranking.
 
 If yes, use `search-records` again with reranking enabled:
 
@@ -128,7 +136,7 @@ rerank:
 
 ### Step 6 – Wrap Up
 
-Congratulate the user on completing the quickstart. Use AskUserQuestion to ask if they'd like a standalone Python script that does everything in one go — create index, upsert, query, and rerank.
+Congratulate the user on completing the quickstart. Ask if they'd like a standalone Python script that does everything in one go — create index, upsert, query, and rerank.
 
 If yes, copy it to their working directory:
 
@@ -146,21 +154,21 @@ Tell the user:
 
 ## Path B: Assistant Quickstart
 
-Guide the user through the Pinecone Assistant workflow using the existing assistant skills:
+Guide the user through the Pinecone Assistant workflow using the existing pinecone:assistant skill:
 
 ### Step 1 – Check for Documents
 
-Before anything else, use AskUserQuestion to ask if the user has files to upload. Pinecone Assistant accepts `.pdf`, `.md`, `.txt`, and `.docx` files — a single file or a folder of files both work.
+Before anything else, ask the user if they have files to upload. Pinecone Assistant accepts `.pdf`, `.md`, `.txt`, and `.docx` files — a single file or a folder of files both work.
 
 **If they have files:** ask for the path and proceed to Step 2.
 
-**If they don't have files:** use AskUserQuestion to offer two options:
+**If they don't have files:** offer two options:
 - **Generate sample docs** — create a few short markdown files in `./sample-docs/` so they can complete the quickstart right now. Ask what topics they'd like (or default to: a product FAQ, a short how-to guide, and a brief company overview). Write 3 files, each 150–250 words.
 - **Come back later** — let them know they can return once they have documents and pick up from Step 2.
 
 ### Step 2 – Create an Assistant
 
-Invoke `pinecone:assistant` or run:
+Invoke `pinecone:assistant` or run (add `--env-file .env` if using a `.env` file):
 ```bash
 uv run ../assistant/scripts/create.py --name my-assistant
 ```
@@ -169,7 +177,7 @@ Explain: The assistant is a fully managed RAG service — upload documents, ask 
 
 ### Step 3 – Upload Documents
 
-Invoke `pinecone:assistant` or run:
+Invoke `pinecone:assistant` or run (add `--env-file .env` if using a `.env` file):
 ```bash
 uv run ../assistant/scripts/upload.py --assistant my-assistant --source ./your-docs
 ```
@@ -178,7 +186,7 @@ Explain: Pinecone handles chunking, embedding, and indexing automatically — no
 
 ### Step 4 – Chat with the Assistant
 
-Invoke `pinecone:assistant` or run:
+Invoke `pinecone:assistant` or run (add `--env-file .env` if using a `.env` file):
 ```bash
 uv run ../assistant/scripts/chat.py --assistant my-assistant --message "What are the main topics in these documents?"
 ```
@@ -188,7 +196,7 @@ Explain: Responses include citations with source file and page number.
 ### Next Steps for Assistant
 
 - Invoke `pinecone:assistant` to keep the assistant up to date as documents change
-- Use the assistant skill to retrieve raw context snippets for custom workflows
+- Use the pinecone:assistant skill to retrieve raw context snippets for custom workflows
 - Every assistant is also an MCP server — see https://docs.pinecone.io/guides/assistant/mcp-server
 
 ---
@@ -197,9 +205,11 @@ Explain: Responses include citations with source file and page number.
 
 **`PINECONE_API_KEY` not set**
 
-```bash
-export PINECONE_API_KEY="your-key"
-```
+- Run `export PINECONE_API_KEY="your-key"` in your terminal. Claude Code reads
+  your shell environment, so this is enough.
+- To use a `.env` file instead, run scripts with `uv run --env-file .env scripts/...`.
+
+Restart your IDE or agent session after setting the key.
 
 **MCP tools not available**
 - Verify the Pinecone MCP server is configured in your IDE's MCP settings

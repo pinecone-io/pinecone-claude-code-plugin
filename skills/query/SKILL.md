@@ -1,6 +1,6 @@
 ---
 name: pinecone:query
-description: Query integrated indexes using text with Pinecone MCP. IMPORTANT - This skill ONLY works with integrated indexes (indexes with built-in Pinecone embedding models like multilingual-e5-large). For standard indexes or advanced vector operations, use the CLI skill instead. Requires PINECONE_API_KEY environment variable and Pinecone MCP server to be configured.
+description: Query integrated indexes using text with Pinecone MCP. IMPORTANT - This skill ONLY works with integrated indexes (indexes with built-in Pinecone embedding models like multilingual-e5-large). For standard indexes or advanced vector operations, use the pinecone:cli skill instead. Requires PINECONE_API_KEY environment variable and Pinecone MCP server to be configured.
 argument-hint: query [q] index [indexName] namespace [ns] topK [k] reranker [rerankModel]
 allowed-tools: Bash, Read
 ---
@@ -8,6 +8,8 @@ allowed-tools: Bash, Read
 # Pinecone Query Skill
 
 Search for records in Pinecone integrated indexes using natural language text queries via the Pinecone MCP server.
+
+Whenever this skill asks the user to choose between options, confirm a destructive step, or pick from a list, use the AskUserQuestion tool rather than plain prose. Fall back to prose only if the tool is unavailable.
 
 ## What is this skill for?
 
@@ -22,13 +24,13 @@ This skill provides a simple way to query **integrated indexes** (indexes with b
 
 ### When NOT to use this skill
 
-**Use the CLI skill instead if:**
+**Use the pinecone:cli skill instead if:**
 - ❌ Your index is a standard index (no integrated embedding model)
 - ❌ You need to query with custom vector values (not text)
 - ❌ You need advanced vector operations (fetch by ID, list vectors, bulk operations)
 - ❌ Your index uses third-party embedding models (OpenAI, HuggingFace, Cohere)
 
-**MCP Limitation**: The Pinecone MCP currently only supports integrated indexes. For all other use cases, use the Pinecone CLI skill.
+**MCP Limitation**: The Pinecone MCP currently only supports integrated indexes. For all other use cases, use the pinecone:cli skill.
 
 ## How it works
 
@@ -48,8 +50,8 @@ Utilize Pinecone MCP's `search-records` tool to search for records within a spec
    - `reranker` (optional): The reranking model to use for improved relevance.
 
 2. If the user omits required arguments:
-   - If only the index name is provided, use the `describe-index` tool to retrieve available namespaces and use AskUserQuestion to let the user choose.
-   - If only a query is provided, use `list-indexes` to get available indexes, use AskUserQuestion for the user to pick one, then use `describe-index` for namespaces if needed.
+   - If only the index name is provided, use the `describe-index` tool to retrieve available namespaces and ask the user to choose.
+   - If only a query is provided, use `list-indexes` to get available indexes, ask the user to pick one, then use `describe-index` for namespaces if needed.
 
 3. Call the `search-records` tool with the gathered arguments to perform the search.
 
@@ -61,12 +63,12 @@ Utilize Pinecone MCP's `search-records` tool to search for records within a spec
 
 **`PINECONE_API_KEY` is required.** Get a free key at https://app.pinecone.io/?sessionType=signup
 
-If you get an access error, the key is likely missing. Ask the user to set it:
-```bash
-export PINECONE_API_KEY="your-key"
-```
+If you get an access error, the key is likely missing. Ask the user to set it and restart their IDE or agent session:
+- Run `export PINECONE_API_KEY="your-key"` in your terminal. Claude Code reads
+  your shell environment, so this is enough.
+- To use a `.env` file instead, run scripts with `uv run --env-file .env scripts/...`.
 
-**IMPORTANT** At the moment, the /query command can only be used with integrated indexes, which use hosted Pinecone embedding models to embed and search for data.
+**IMPORTANT** At the moment, the pinecone:query skill can only be used with integrated indexes, which use hosted Pinecone embedding models to embed and search for data.
 If a user attempts to query an index that uses a third party API model such as OpenAI, or HuggingFace embedding models, remind them that this capability is not available yet
 with the Pinecone MCP server.
 
@@ -81,6 +83,6 @@ with the Pinecone MCP server.
 - `describe-index`: Get index configuration and namespaces.
 - `describe-index-stats`: Get stats including record counts and namespaces.
 - `rerank-documents`: Rerank returned documents using a specified reranking model.
-- Use AskUserQuestion to clarify missing information when needed.
+- Ask the user interactively to clarify missing information when needed.
 
 ---
