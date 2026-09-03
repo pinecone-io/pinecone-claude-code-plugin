@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.7.0] - 2026-09-03
+
+### Changed
+- **Full-text search now requires `pinecone` Python SDK >= 10.0.0.** The document-schema
+  API graduated out of `pinecone.preview` and is a first-class, SemVer-covered part of the
+  SDK, reached directly off the client: `pc.indexes`, `pc.index(name)`. The wire API
+  version is `2026-07`.
+- `scripts/ingest.py` pins `pinecone==10.0.0` and calls `pc.index(name)` in place of
+  `pc.preview.index(name)`.
+- `--batch-size` on `scripts/ingest.py` now defaults to 50 rather than 100, with the
+  large-vector guidance moved from 50 to 25. Fewer payload-size errors out of the box.
+
+### Removed
+- **`pinecone.preview` is deleted in SDK 10.0.0 — there is no shim.** Importing it raises
+  `ModuleNotFoundError`. The skill keeps migration notes for anyone carrying code over
+  from the preview API, including the traps that changed shape rather than disappearing.
+
+### Added
+- **Per-field updates.** `documents.update(...)` replaces the fetch, modify, re-upsert
+  workaround the preview API forced.
+- **Namespace management.** Create, describe, list, and delete namespaces through the API.
+  The preview API could write to a namespace but not manage one.
+- **`documents.list(...)`** enumerates document IDs in a namespace, lazily paginated,
+  sorted by `_id`, optionally filtered by `prefix`.
+
+### Fixed
+- **Filterable metadata does not belong in the schema.** On a managed index the server
+  rejects any schema-declared filterable field with a `400` — string, string list, float,
+  and boolean alike. Put those fields on upserted documents instead, where they
+  auto-index for filtering with nothing to configure.
+- **A hybrid index must declare its `sparse_vector` field at create time.** `metric="dotproduct"`
+  on the dense field is no longer a hybrid declaration by itself. The create call succeeds
+  either way, but without a declared `sparse_vector` field the sparse writes are refused
+  later, often from a different part of the codebase. Schemas are immutable, so fixing it
+  means creating a new index.
+
 ## [1.6.0] - 2026-08-11
 
 ### Added
