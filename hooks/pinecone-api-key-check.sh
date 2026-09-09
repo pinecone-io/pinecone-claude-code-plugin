@@ -43,7 +43,7 @@ EOF
 
 read -r -d '' CLI_HELP <<'EOF' || true
 Install the Pinecone CLI (optional — enables terminal management of all index types, batch ops, and backups):
-    brew tap pinecone-io/tap && brew install pinecone-io/tap/pinecone
+    brew install --cask pinecone-io/tap/pinecone
 Then run `pc login` directly in a terminal (not inside an agent loop — the browser auth link may not surface in-agent). Note: `pc login` authenticates the CLI only; it does not set PINECONE_API_KEY.
 EOF
 
