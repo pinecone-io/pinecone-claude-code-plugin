@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.7.1] - 2026-09-09
+
+### Fixed
+- **Fuzzy and regex search were wrongly listed as unsupported.** Both work in
+  full-text search, under `type: "query_string"` only: fuzzy as `term~N` (edit
+  distance 0-2; a bare `~` picks a distance from term length) and regex as
+  `field:/pattern/`, matched against analyzed tokens rather than raw field text.
+  Under `type: "text"` the `~` and `/.../` characters are treated as literals.
+  Both operators are now in the query-syntax table in the querying reference.
+- **Bulk import from object storage was wrongly listed as unsupported.** Pinecone
+  supports it for document-shaped indexes using JSON Lines files. This skill does
+  not implement it; the skill now says so and points at `documents.upsert` /
+  `documents.batch_upsert` for ingestion here.
+
+The two remaining platform limitations are unchanged and still accurate: indexes
+holding a `full_text_search` field cannot be created in CMEK-enabled projects,
+and backup and restore are not yet supported.
+
 ## [1.7.0] - 2026-09-03
 
 ### Changed
