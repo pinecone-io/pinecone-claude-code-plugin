@@ -96,7 +96,7 @@ Overview of all available Pinecone skills and what you need to get started. Run 
 ### `/pinecone:quickstart`
 
 Interactive quickstart for new developers. Choose between two paths:
-- **Database** — Create an integrated index, upsert data, and query using Pinecone MCP + Python
+- **Database** — Create a document index with integrated embedding, upsert sample documents, and search by meaning and by exact terms using Pinecone MCP + Python
 - **Assistant** — Create a Pinecone Assistant for document Q&A with citations
 
 ### `/pinecone:query`
@@ -152,6 +152,9 @@ The plugin includes the full Pinecone MCP Server with the following tools:
 | `describe-index-stats` | Get statistics including record counts and namespaces |
 | `search-records` | Search records with optional metadata filtering and reranking |
 | `create-index-for-model` | Create a new index with integrated embeddings |
+| `create-document-index` | Create a document index whose text field supports search by meaning and by exact terms |
+| `upsert-documents` | Insert or update documents in a document index |
+| `search-document-index` | Search a document index by meaning or by exact terms |
 | `upsert-records` | Insert or update records in an index |
 | `rerank-documents` | Rerank documents using a specified reranking model |
 
